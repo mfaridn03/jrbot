@@ -17,7 +17,6 @@ async def on_ready():
 if __name__ == '__main__':
     for e in extensions:
         try:
-            bot.load_extension('jishaku')
             bot.load_extension(f"cogs.{e}")
         except Exception as er:
             print(f"Failed to load extension {e}:\n{type(er).__name__}: {er}")
