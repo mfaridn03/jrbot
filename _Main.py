@@ -17,7 +17,7 @@ async def on_ready():
 async def on_message(msg):
     if msg.channel.id == 534754067998834688 and (
         msg.content.lower() != 'f.verify' or msg.content.lower() != 'ff verify'):
-        return
+        return await msg.delete()
     else:
         await bot.process_commands(msg)
 
