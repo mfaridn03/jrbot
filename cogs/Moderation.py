@@ -27,9 +27,12 @@ class Moderation:
             target = await commands.MemberConverter().convert(ctx, member)
         except commands.BadArgument:
             return await ctx.send(f"Member {member} not found")
-
-        await target.kick(reason=reason)
-        await ctx.send(f"👍 {target} was kicked because of: **{reason}**")
+        
+        try:
+            await target.kick(reason=reason)
+            await ctx.send(f"👍 {target} was kicked because of: **{reason}**")
+        except Exception as e:
+            await ctx.send(f'{type(e).__name__}, {e}')
 
         emb = discord.Embed(title='Member kick', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.red())
         emb.add_field(name='Member', value=f'{target.mention} ({target} - {target.id})', inline=False)
@@ -41,7 +44,7 @@ class Moderation:
     @commands.command(name='ban')
     async def ban(self, ctx, member, *, reason=None):
         """
-        Bans member (includes http ban)
+        Bans member
 
         Usage examples:
         - f.ban @User#2932 attempted raid
@@ -54,9 +57,12 @@ class Moderation:
             target = await commands.MemberConverter().convert(ctx, member)
         except commands.BadArgument:
             return await ctx.send(f'Member {member} not found')
-
-        await ctx.guild.ban(target)
-        await ctx.send(f"👍 {target} ({target.id}) was banned because of: **{reason}**")
+        
+        try:
+            await ctx.guild.ban(target)
+            await ctx.send(f"👍 {target} ({target.id}) was banned because of: **{reason}**")
+        except Exception as e:
+            await ctx.send(f'{type(e).__name__}, {e}')
 
         emb = discord.Embed(title='Member ban', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.red())
         emb.add_field(name='Member', value=f'{target.mention} ({target} - {target.id})', inline=False)
@@ -80,7 +86,7 @@ class Moderation:
         try:
             await ctx.guild.unban()
         except Exception as e:
-            print(e)
+            await ctx.send(f'{type(e).__name__}, {e}')
 
 
 def setup(bot):
