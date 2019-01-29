@@ -35,6 +35,7 @@ class Moderation:
         emb.add_field(name='Member', value=f'{target.mention} ({target} - {target.id})', inline=False)
         emb.add_field(name='Reason', value=reason, inline=False)
         emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
+        await ctx.message.add_reaction('✅')
         await log_channel.send(embed=emb)
 
     @commands.has_permissions(ban_members=True)
@@ -63,6 +64,7 @@ class Moderation:
         emb.add_field(name='Member', value=f'{target.mention} ({target} - {target.id})', inline=False)
         emb.add_field(name='Reason', value=reason, inline=False)
         emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
+        await ctx.message.add_reaction('✅')
         await log_channel.send(embed=emb)
 
     @commands.has_permissions(ban_members=True)
@@ -92,11 +94,13 @@ class Moderation:
         emb.add_field(name='User', value=f'{user.name}#{user.discriminator} ({user.id})', inline=False)
         emb.add_field(name='Reason', value=reason, inline=False)
         emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
+        await ctx.message.add_reaction('✅')
         await log_channel.send(embed=emb)
     
     @commands.is_owner()
     @commands.command(name='Echo', hidden=True)
     async def echo(self, ctx, *, msg):
+        await ctx.message.delete()
         await ctx.send(msg)
 
     @commands.command(name='verify', hidden=True)
@@ -106,6 +110,7 @@ class Moderation:
 
         role = discord.utils.get(ctx.guild.roles, id=534273110023602177)
         await ctx.author.add_roles(role)
+        await ctx.message.delete()
 
 
 def setup(bot):
