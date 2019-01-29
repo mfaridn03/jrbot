@@ -56,7 +56,7 @@ class Moderation:
         except commands.BadArgument:
             return await ctx.send(f'Member {member} not found')
         
-        await ctx.guild.ban(target)
+        await ctx.guild.ban(target, reason=reason)
         await ctx.send(f"👍 {target} ({target.id}) was banned because of: **{reason}**")
         
         log_channel = discord.utils.get(ctx.guild.channels, id=self.logging_channel)
@@ -83,11 +83,12 @@ class Moderation:
         user = None
         banlist = await ctx.guild.bans()
         for entry in banlist:
+            await ctx.send(f'{entry}: {entry.user.id}')
             if entry.user.id == user_id:
                 user = entry.user
         if user is None:
             return await ctx.send(f'ID **{user_id}** not found')
-        await ctx.guild.unban(user)
+        await ctx.guild.unban(user, reason=reason)
 
         log_channel = discord.utils.get(ctx.guild.channels, id=self.logging_channel)
         emb = discord.Embed(title='Unban', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.orange())
