@@ -98,7 +98,7 @@ class Moderation:
         await log_channel.send(embed=emb)
     
     @commands.is_owner()
-    @commands.command(name='Echo', hidden=True)
+    @commands.command(name='echo', aliases=['say'], hidden=True)
     async def echo(self, ctx, *, msg):
         await ctx.message.delete()
         await ctx.send(msg)
