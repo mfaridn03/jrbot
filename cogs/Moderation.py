@@ -27,6 +27,7 @@ class Moderation:
         except commands.BadArgument:
             return await ctx.send(f"Member {member} not found")
         
+        await target.send(f'You have been kicked out from {ctx.guild.name} for reason: **{reason}**')
         await target.kick(reason=reason)
         await ctx.send(f"👍 {target} was kicked because of: **{reason}**")
         
@@ -56,6 +57,7 @@ class Moderation:
         except commands.BadArgument:
             return await ctx.send(f'Member {member} not found')
         
+        await target.send(f'You have been banned from {ctx.guild.name} for reason: **{reason}**')
         await ctx.guild.ban(target, reason=reason)
         await ctx.send(f"👍 {target} ({target.id}) was banned because of: **{reason}**")
         
