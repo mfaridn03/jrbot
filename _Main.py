@@ -4,7 +4,7 @@ import os
 extensions = ['Utils', 'Moderation']
 
 desc = "Farid's home-made bot for his personal server"
-bot = commands.AutoShardedBot(command_prefix=['f.', 'ff '], description=desc)
+bot = commands.Bot(command_prefix=['f.', 'ff '], description=desc)
 
 
 @bot.event
