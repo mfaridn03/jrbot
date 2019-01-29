@@ -69,7 +69,7 @@ class Moderation:
 
     @commands.has_permissions(ban_members=True)
     @commands.command(name='unban')
-    async def unban(self, ctx, user_id, *, reason=None):
+    async def unban(self, ctx, user_id=int, *, reason=None):
         """
         Unbans a member by their id
 
@@ -80,16 +80,12 @@ class Moderation:
         if not reason:
             reason = 'Unspecified'
         
-        user = None
-        banlist = await ctx.guild.bans()
-        for entry in banlist:
-            await ctx.send(f'{entry}: {entry.user.id}')
-            if entry.user.id == user_id:
-                user = entry.user
-        if user is None:
-            return await ctx.send(f'ID **{user_id}** not found')
-        await ctx.guild.unban(user, reason=reason)
-
+        user = discord.Object(id=user_id)
+        try:
+            await ctx.guild.unban(user, reason=reason)
+        except discord.NotFound:
+            return await ctx.send(f'User {user_id} either cannot be found or is not banned')
+        
         log_channel = discord.utils.get(ctx.guild.channels, id=self.logging_channel)
         emb = discord.Embed(title='Unban', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.orange())
         emb.add_field(name='User', value=f'{user.name}#{user.discriminator} ({user.id})', inline=False)
