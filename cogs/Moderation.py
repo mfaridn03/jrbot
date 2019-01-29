@@ -93,6 +93,19 @@ class Moderation:
         emb.add_field(name='Reason', value=reason, inline=False)
         emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
         await log_channel.send(embed=emb)
+    
+    @commands.is_owner()
+    @commands.command(name='Echo', hidden=True)
+    async def echo(self, ctx, *, msg):
+        await ctx.send(msg)
+
+    @commands.command(name='verify', hidden=True)
+    async def verify(self, ctx):
+        if ctx.channel.id != 534754067998834688:
+            return
+
+        role = discord.utils.get(ctx.guild.roles, id=534273110023602177)
+        await ctx.author.add_roles(role)
 
 
 def setup(bot):
