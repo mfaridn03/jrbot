@@ -27,11 +27,8 @@ class Moderation:
         except commands.BadArgument:
             return await ctx.send(f"Member {member} not found")
         
-        try:
-            await target.kick(reason=reason)
-            await ctx.send(f"👍 {target} was kicked because of: **{reason}**")
-        except Exception as e:
-            await ctx.send(f'{type(e).__name__}, {e}')
+        await target.kick(reason=reason)
+        await ctx.send(f"👍 {target} was kicked because of: **{reason}**")
         
         log_channel = discord.utils.get(ctx.guild.channels, id=self.logging_channel)
         emb = discord.Embed(title='Member kick', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.red())
@@ -58,11 +55,8 @@ class Moderation:
         except commands.BadArgument:
             return await ctx.send(f'Member {member} not found')
         
-        try:
-            await ctx.guild.ban(target)
-            await ctx.send(f"👍 {target} ({target.id}) was banned because of: **{reason}**")
-        except Exception as e:
-            await ctx.send(f'{type(e).__name__}, {e}')
+        await ctx.guild.ban(target)
+        await ctx.send(f"👍 {target} ({target.id}) was banned because of: **{reason}**")
         
         log_channel = discord.utils.get(ctx.guild.channels, id=self.logging_channel)
         emb = discord.Embed(title='Ban', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.red())
@@ -84,23 +78,20 @@ class Moderation:
         if not reason:
             reason = 'Unspecified'
 
-        try:
-            banlist = await ctx.guild.bans()
-            for entry in banlist:
-                if entry.user.id == user_id:
-                    user = entry.user
-            if user is None:
-                return await ctx.send(f'ID **{user_id}** not found')
-            await ctx.guild.unban(user)
-            
-            log_channel = discord.utils.get(ctx.guild.channels, id=self.logging_channel)
-            emb = discord.Embed(title='Unban', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.orange())
-            emb.add_field(name='User', value=f'{user.name}#{user.discriminator} ({user.id})', inline=False)
-            emb.add_field(name='Reason', value=reason, inline=False)
-            emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
-            await log_channel.send(embed=emb)
-        except Exception as e:
-            await ctx.send(f'{type(e).__name__}, {e}')
+        banlist = await ctx.guild.bans()
+        for entry in banlist:
+            if entry.user.id == user_id:
+                user = entry.user
+        if user is None:
+            return await ctx.send(f'ID **{user_id}** not found')
+        await ctx.guild.unban(user)
+
+        log_channel = discord.utils.get(ctx.guild.channels, id=self.logging_channel)
+        emb = discord.Embed(title='Unban', timestamp=datetime.datetime.utcnow(), colour=discord.Colour.orange())
+        emb.add_field(name='User', value=f'{user.name}#{user.discriminator} ({user.id})', inline=False)
+        emb.add_field(name='Reason', value=reason, inline=False)
+        emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
+        await log_channel.send(embed=emb)
 
 
 def setup(bot):
