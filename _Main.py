@@ -1,7 +1,7 @@
 from discord.ext import commands
 import os
 
-extensions = ['Utils', 'Moderation', 'Errorhandling']
+extensions = ['Utils', 'Moderation']
 
 desc = "Farid's home-made bot for his personal server"
 bot = commands.Bot(command_prefix=['f.', 'ff '], description=desc)
