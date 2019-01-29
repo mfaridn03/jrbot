@@ -15,9 +15,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(msg):
-    if msg.channel.id == 534754067998834688 and (
-        msg.content.lower() != 'f.verify' or msg.content.lower() != 'ff verify'):
-        if msg.author.id != 191036924570501120:
+    if msg.channel.id == 534754067998834688 and msg.author.id != 191036924570501120:
             return await msg.delete()
     await bot.process_commands(msg)
 
