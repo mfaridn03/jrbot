@@ -78,7 +78,7 @@ class Moderation:
         if not reason:
             reason = 'Unspecified'
         
-        entry = ''
+        user = ''
         banlist = await ctx.guild.bans()
         for entry in banlist:
             if entry.user.id == user_id:
