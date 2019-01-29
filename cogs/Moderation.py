@@ -72,7 +72,7 @@ class Moderation:
 
     @commands.has_permissions(ban_members=True)
     @commands.command(name='unban')
-    async def unban(self, ctx, user_id: int, *, reason=None):
+    async def unban(self, ctx, user_id, *, reason=None):
         """
         Unbans a member by their id
 
