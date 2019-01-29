@@ -84,7 +84,7 @@ class Moderation:
             reason = 'Unspecified'
 
         try:
-            await ctx.guild.unban()
+            await ctx.guild.unban(user_id)
         except Exception as e:
             await ctx.send(f'{type(e).__name__}, {e}')
 
