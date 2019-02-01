@@ -267,7 +267,7 @@ class Fun:
         except:
             return ctx.send('Error searching for video')
        
-    @commands.command(name='secret)
+    @commands.command(name='secret')
     async def spoilerfy(self, ctx, *, words):
         """Replaces a string where each character is a spoiler block"""
         if len(words) > 300:
