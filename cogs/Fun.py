@@ -298,7 +298,7 @@ class Fun:
         
         emb = discord.Embed(
             title='Spoilerfied!',
-            description=(f'```{''.join(final)}```'),
+            description=(f"```{''.join(final)}```"),
             timestamp=datetime.datetime.utcnow()
         )
         
