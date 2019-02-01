@@ -284,6 +284,26 @@ class Fun:
         )
         await ctx.message.delete()
         await ctx.send(embed=emb)
+    
+    @commands.command(name='spoilerfy', aliases=['sf'])
+    async def spoilerfy(self, ctx, *, words):
+        """Just like f.secret, but with raw formatting!"""
+        if len(words) > 300:
+            return await ctx.send('Sentence is too long!')
+        final = []
+        for letter in words:
+            final.append('||')
+            final.append(letter)
+            final.append('||')
+        
+        emb = discord.Embed(
+            title='Spoilerfied!',
+            description=(f'```{''.join(final)}```'),
+            timestamp=datetime.datetime.utcnow()
+        )
+        
+        emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+        await ctx.send(embed=emb)
 
 
 def setup(bot):
