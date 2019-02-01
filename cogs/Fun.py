@@ -267,7 +267,7 @@ class Fun:
         except:
             return ctx.send('Error searching for video')
        
-    @commands.command(name='spoilerfy', aliases=['sp'])
+    @commands.command(name='secret)
     async def spoilerfy(self, ctx, *, words):
         """Replaces a string where each character is a spoiler block"""
         if len(words) > 300:
@@ -279,9 +279,10 @@ class Fun:
             final.append('||')
         
         emb = discord.Embed(
-            title='Spoilerfy!',
+            title='A secret message... 👀',
             description=(''.join(final))
         )
+        await ctx.message.delete()
         await ctx.send(embed=emb)
 
 
