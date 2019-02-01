@@ -266,6 +266,23 @@ class Fun:
             await ctx.send(f'**Search result:**\nhttps://www.youtube.com/watch?v={video_id}')
         except:
             return ctx.send('Error searching for video')
+       
+    @commands.command(name='spoilerfy')
+    async def spoilerfy(self, ctx, *, words):
+        """Replaces a string where each character is a spoiler block"""
+        if len(words) > 300:
+            return await ctx.send('Sentence is too long!')
+        final = []
+        for letter in words:
+            final.append('||')
+            final.append(letter)
+            final.append('||')
+        
+        emb = discord.Embed(
+            title='Spoilerfy!',
+            desc=(''.join(final))
+        )
+        await ctx.send(embed=emb)
 
 
 def setup(bot):
