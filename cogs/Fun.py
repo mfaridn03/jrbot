@@ -4,6 +4,8 @@ import asyncio
 import discord
 import requests
 import json
+import urllib.request
+from bs4 import BeautifulSoup
 import os
 
 apixu_key = os.getenv('APIXU_KEY')
@@ -11,10 +13,9 @@ od_app_id = os.getenv('OD_APP_ID')
 od_app_key = os.getenv('OD_APP_KEY')
 
 
-class Utils:
+class Fun:
     def __init__(self, bot):
         self.bot = bot
-        self.owner = 191036924570501120
 
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(name='urban', aliases=['ud'])
@@ -249,7 +250,23 @@ class Utils:
             await ctx.send(embed=emb)
         except json.JSONDecodeError:
             return await ctx.send("No results found")
+    
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.command(name='yt', aliases=['youtube'])
+    async def youtube(self, ctx, *, search_query):
+        """Searches a youtube video"""
+        try:
+            async with ctx.typing():
+                query = search_query.replace(' ', '+')
+                search_url = f'https://www.youtube.com/results?search_query={query}'
+                page = urllib.request.urlopen(search_url)
+                soup = BeautifulSoup(page.read(), "html.parser")
+                video_id = soup.find("div", {"class": "yt-lockup yt-lockup-tile yt-lockup-video vve-check clearfix"}).get(
+                    "data-context-item-id")
+            await ctx.send(f'**Search result:**\nhttps://www.youtube.com/watch?v={video_id}')
+        except:
+            return ctx.send('Error searching for video')
 
 
 def setup(bot):
-    bot.add_cog(Utils(bot))
+    bot.add_cog(Fun(bot))
