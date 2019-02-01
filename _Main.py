@@ -2,7 +2,7 @@ from discord.ext import commands
 import discord
 import os
 
-extensions = ['Utils', 'Moderation']
+extensions = ['Fun', 'Moderation']
 
 desc = "Farid's home-made bot for his personal server"
 bot = commands.Bot(command_prefix=['f.', 'ff '], description=desc)
@@ -39,4 +39,4 @@ if __name__ == '__main__':
         except Exception as er:
             print(f"Failed to load extension {e}:\n{type(er).__name__}: {er}")
 
-bot.run(os.getenv('TOKEN'))
+bot.run(os.getenv('TOKEN'))  # Nice try
