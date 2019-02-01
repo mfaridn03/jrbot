@@ -12,6 +12,10 @@ async def on_ready():
     print(f"Logged in as {bot.user}\n"
           f"ID: {bot.user.id}\n"
           f"---------------")
+    await bot.change_presence(status=discord.Status.dnd,
+                                       activity=discord.Activity(
+                                           name="everyone 👀",
+                                           type=discord.ActivityType.watching))
 
 @bot.event
 async def on_message(msg):
