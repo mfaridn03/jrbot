@@ -36,7 +36,7 @@ async def on_raw_reaction_add(data):
         guild = bot.get_guild(data.guild_id)
         member = guild.get_member(data.user_id)
         if data.emoji.name == '🐦':
-            role = discord.utils.get(data.roles, id=535346317245808660)
+            role = discord.utils.get(guild.roles, id=535346317245808660)
             return await member.add_roles(role)
         if data.emoji.name == '▶':
             role = discord.utils.get(guild.roles, id=535351222543056896)
