@@ -31,19 +31,19 @@ async def on_message(msg):
     await bot.process_commands(msg)
 
 @bot.event
-    async def on_raw_reaction_add(data):
-        if data.message_id == 541974797933084702:
-            guild = bot.get_guild(data.guild_id)
-            member = guild.get_member(data.user_id)
-            if data.emoji.name == '🐦':
-                role = discord.utils.get(data.roles, id=535346317245808660)
-                return await member.add_roles(role)
-            if data.emoji.name == '▶':
-                role = discord.utils.get(guild.roles, id=535351222543056896)
-                return await member.add_roles(role)
-            else:
-                o = bot.get_user(191036924570501120)
-                await o.send(f'Invalid reaction:{data.emoji.name}')
+async def on_raw_reaction_add(data):
+    if data.message_id == 541974797933084702:
+        guild = bot.get_guild(data.guild_id)
+        member = guild.get_member(data.user_id)
+        if data.emoji.name == '🐦':
+            role = discord.utils.get(data.roles, id=535346317245808660)
+            return await member.add_roles(role)
+        if data.emoji.name == '▶':
+            role = discord.utils.get(guild.roles, id=535351222543056896)
+            return await member.add_roles(role)
+        else:
+            o = bot.get_user(191036924570501120)
+            await o.send(f'Invalid reaction:{data.emoji.name}')
 
 @bot.event
 async def on_raw_reaction_remove(data):
