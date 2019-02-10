@@ -200,7 +200,7 @@ class Fun:
         except KeyError:
             return await ctx.send("No results found (or API is having problems)")
 
-    @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.command(name='define')
     async def define(self, ctx, *, word):
         """
@@ -237,7 +237,7 @@ class Fun:
 
                 category = req_json['results'][0]['lexicalEntries'][0]['lexicalCategory']
 
-                emb = discord.Embed(title=f'Word: {word}', colour=discord.Colour.blurple(),
+                emb = discord.Embed(title=f'[{word}](https://en.oxforddictionaries.com/definition/{word})', colour=discord.Colour.blurple(),
                                     timestamp=datetime.datetime.utcnow())
                 emb.add_field(name='Definition', value=definition, inline=False)
                 emb.add_field(name='Type', value=category, inline=False)
