@@ -234,15 +234,12 @@ class Fun:
                     pass
 
                 definition = req_json['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['definitions'][0]
-
                 category = req_json['results'][0]['lexicalEntries'][0]['lexicalCategory']
-                
-                tit = f"[{word}](https://en.oxforddictionaries.com/definition/{word})"
-                # oi mate
+                # tit = f"[{word}](https://en.oxforddictionaries.com/definition/{word})"
 
-                emb = discord.Embed(title='Word:', colour=discord.Colour.blurple(),
-                                    timestamp=datetime.datetime.utcnow())
-                emb.add_field(name='Definition', value=f"**__{tit}__**\n{definition}", inline=False)
+                emb = discord.Embed(title=word, colour=discord.Colour.blurple(),
+                                    timestamp=datetime.datetime.utcnow(), url=f"https://en.oxforddictionaries.com/definition/{word}")
+                emb.add_field(name='Definition', value=definition, inline=False)
                 emb.add_field(name='Type', value=category, inline=False)
                 if et:
                     emb.add_field(name='Etymology', value=etymology, inline=False)
