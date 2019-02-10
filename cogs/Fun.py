@@ -236,8 +236,11 @@ class Fun:
                 definition = req_json['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['definitions'][0]
 
                 category = req_json['results'][0]['lexicalEntries'][0]['lexicalCategory']
+                
+                tit = f"[{word}](https://en.oxforddictionaries.com/definition/{word})"
+                # oi mate
 
-                emb = discord.Embed(title=f'[{word}](https://en.oxforddictionaries.com/definition/{word})', colour=discord.Colour.blurple(),
+                emb = discord.Embed(title=tit, colour=discord.Colour.blurple(),
                                     timestamp=datetime.datetime.utcnow())
                 emb.add_field(name='Definition', value=definition, inline=False)
                 emb.add_field(name='Type', value=category, inline=False)
