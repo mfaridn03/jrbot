@@ -240,9 +240,9 @@ class Fun:
                 tit = f"[{word}](https://en.oxforddictionaries.com/definition/{word})"
                 # oi mate
 
-                emb = discord.Embed(title=tit, colour=discord.Colour.blurple(),
+                emb = discord.Embed(title='Word:', colour=discord.Colour.blurple(),
                                     timestamp=datetime.datetime.utcnow())
-                emb.add_field(name='Definition', value=definition, inline=False)
+                emb.add_field(name='Definition', value=f"**__{tit}__**\n{definition}", inline=False)
                 emb.add_field(name='Type', value=category, inline=False)
                 if et:
                     emb.add_field(name='Etymology', value=etymology, inline=False)
