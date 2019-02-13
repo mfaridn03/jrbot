@@ -4,4 +4,4 @@ jishaku
 yarl<1.2
 bs4
 psutil
-newsapi
+newsapi-python
