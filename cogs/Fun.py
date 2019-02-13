@@ -7,7 +7,9 @@ import json
 import urllib.request
 from bs4 import BeautifulSoup
 import os
+from newsapi import NewsApiClient
 
+newapi_key = os.getenv('NEWSAPI_KEY')
 apixu_key = os.getenv('APIXU_KEY')
 od_app_id = os.getenv('OD_APP_ID')
 od_app_key = os.getenv('OD_APP_KEY')
@@ -254,7 +256,13 @@ class Fun:
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(name='yt', aliases=['youtube'])
     async def youtube(self, ctx, *, search_query):
-        """Searches a youtube video"""
+        """
+        Searches a youtube video
+        
+        Usage examples:
+        - f.yt never gonna give you up
+        - f.youtube U9BwWKXjVaI
+        """
         try:
             async with ctx.typing():
                 query = search_query.replace(' ', '+')
@@ -269,7 +277,13 @@ class Fun:
        
     @commands.command(name='secret')
     async def secret(self, ctx, *, words):
-        """Replaces a string where each character is a spoiler block"""
+        """
+        Replaces a string where each character is a spoiler block
+        
+        Usage examples:
+        - f.secret @Farid#0001 is a crap mod
+        - f.secret bush did 9/11
+        """
         if len(words) > 300:
             return await ctx.send('Sentence is too long!')
         final = []
@@ -287,7 +301,13 @@ class Fun:
     
     @commands.command(name='spoilerfy', aliases=['sf'])
     async def spoilerfy(self, ctx, *, words):
-        """Just like f.secret, but with raw formatting!"""
+        """
+        Just like f.secret, but with raw formatting!
+        
+        Usage examples:
+        - f.spoilerfy qwertyuiop
+        - f.sf quit wasting time
+        """
         if len(words) > 300:
             return await ctx.send('Sentence is too long!')
         final = []
@@ -304,6 +324,30 @@ class Fun:
         
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         await ctx.send(embed=emb)
+    
+    @commands.command(name='news')
+    async def news(self, ctx, *, args):
+            """
+            Retrieve arguments
+            
+            ALL ARGUMENTS:
+            -query (search query) [required]
+            
+            
+            -lang (language selected, default = english) [optional]
+            Available languages:
+            ae ar at au be bg br ca ch
+            cn co cu cz de eg fr gb gr
+            hk hu id ie il in it jp kr
+            lt lv ma mx my ng nl no nz
+            ph pl pt ro rs ru sa se sg
+            si sk th tr tw ua us ve za
+            
+            -category (article category) [optional]
+            """
+            await ctx.send('WIP')  # Placeholder
+            
+            
 
 
 def setup(bot):
