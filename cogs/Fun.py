@@ -345,6 +345,34 @@ class Fun:
             """
             newsapi = NewsApiClient(newsapi_key)
             await ctx.send('WIP')  # Placeholder
+    
+    @commands.command(name='rhyme')
+    async def rhyme(self, ctx, *, phrase):
+        """Tries to find a rhyme for a certain phrase"""
+        session = requests.session()
+        link = f"http://rhymebrain.com/talk?function=getRhymes&word={phrase.lower()}"
+
+        async with ctx.typing():
+            req_link = session.get(link).text
+            req_json = json.loads(req_link)
+
+            if req_json is None:
+                return await ctx.send('No rhyme/s found')
+
+            em = []
+            desc = ''
+            for entry in req_json:
+                if len(em) >= 5:
+                    break
+                em.append(entry)
+
+            if not em:
+                desc = 'None found'
+            else:
+                for entry in em:
+                    desc += f"**Word:** {entry['word']}\n**Accuracy:** {round((entry['score']/3), 2)}%\n\n"
+            emb = discord.Embed(title=f'Rhymes of "{phrase}"', timestamp=datetime.datetime.utcnow(),
+                                color=discord.Colour.blue(), description=desc)
             
            
 def setup(bot):
