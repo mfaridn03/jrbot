@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import os
 from newsapi import NewsApiClient
 
-newapi_key = os.getenv('NEWSAPI_KEY')
+newsapi_key = os.getenv('NEWSAPI_KEY')
 apixu_key = os.getenv('APIXU_KEY')
 od_app_id = os.getenv('OD_APP_ID')
 od_app_key = os.getenv('OD_APP_KEY')
@@ -326,29 +326,26 @@ class Fun:
         await ctx.send(embed=emb)
     
     @commands.command(name='news')
-    async def news(self, ctx, *, args):
+    async def news(self, ctx, *, query):
             """
-            Retrieve arguments
+            Retrieve news article
             
-            ALL ARGUMENTS:
-            -query (search query) [required]
-            
-            
-            -lang (language selected, default = english) [optional]
-            Available languages:
-            ae ar at au be bg br ca ch
-            cn co cu cz de eg fr gb gr
-            hk hu id ie il in it jp kr
-            lt lv ma mx my ng nl no nz
-            ph pl pt ro rs ru sa se sg
-            si sk th tr tw ua us ve za
-            
-            -category (article category) [optional]
+            Keywords or phrases to search for.
+            ---
+            <query>
+            Advanced search is supported:
+            Surround phrases with quotes (") for exact match.
+            Prepend words or phrases that must appear with a + symbol. Eg: +bitcoin
+            Prepend words that must not appear with a - symbol. Eg: -bitcoin
+            Alternatively you can use the AND / OR / NOT keywords, and optionally group these with parenthesis. Eg: crypto AND (ethereum OR litecoin) NOT bitcoin.
+            ----
+            Usage examples:
+            - f.news Donald Trump +twitter -covfefe
+            - f.news youtube NOT pewdiepie
             """
+            newsapi = NewsApiClient(newsapi_key)
             await ctx.send('WIP')  # Placeholder
             
-            
-
-
+           
 def setup(bot):
     bot.add_cog(Fun(bot))
