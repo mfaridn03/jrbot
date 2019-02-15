@@ -326,28 +326,52 @@ class Fun:
         await ctx.send(embed=emb)
     
     @commands.command(name='news')
-    async def news(self, ctx, *, query):
+    async def news(self, ctx, *, argument):
         """
         Retrieve news article
 
-        query: Keywords or phrases to search for.
-        ---
-        <query>
+        Args:
+        Query comes first, then sort, then language
+        --q OR --query
+        The keywords to search for
+        
+        --lang OR --language
+        The language for the article (default=english)
+        Options:
+        ar: Arabic
+        de: Deustch (German)
+        en: English
+        es: Espanol
+        fr
+        he
+        it
+        nl
+        no
+        pt
+        ru
+        ud
+        
+        --sort
+        The order to sort the article by (default=relevancy)
+        Options:
+        relevancy, popularity, publishedAt
+        ____________________________
+        --query:
         Advanced search is supported:
         Surround phrases with quotes (") for exact match.
         Prepend words or phrases that must appear with a + symbol. Eg: +bitcoin
         Prepend words that must not appear with a - symbol. Eg: -bitcoin
         Alternatively you can use the AND / OR / NOT keywords, and optionally group these with parenthesis. Eg: crypto AND (ethereum OR litecoin) NOT bitcoin.
-        ----
+        ____________________________
         Usage examples:
-        - f.news Donald Trump +twitter -covfefe
-        - f.news youtube NOT pewdiepie
-        - f.news discordapp
+        - f.news --q Donald Trump +twitter -covfefe --language fr
+        - f.news --q youtube NOT pewdiepie --sort publishedAt
+        - f.news --q discordapp
         """
         news = NewsApiClient(newsapi_key)
         try:
             async with ctx.typing():
-                result = news.get_everything(q=query, sort_by='relevancy', page_size=10)
+                result = news.get_everything(q=argument, sort_by='relevancy', page_size=10)
                 index = 0
                 limit = len(result['articles']) - 1
 
