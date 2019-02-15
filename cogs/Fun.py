@@ -368,6 +368,7 @@ class Fun:
                 emb.add_field(name='Source', value=source, inline=True)
                 emb.add_field(name='Date', value=date, inline=True)
                 emb.set_thumbnail(url=img)
+                emb.set_footer(text='Powered by News API | https://newsapi.org', icon_url=ctx.author.avatar_url)
         except KeyError:
             return await ctx.send('Not found')
 
@@ -415,6 +416,7 @@ class Fun:
                 emb.add_field(name='Source', value=source, inline=True)
                 emb.add_field(name='Date', value=date, inline=True)
                 emb.set_thumbnail(url=img)
+                emb.set_footer(text='Powered by News API | https://newsapi.org', icon_url=ctx.author.avatar_url)
 
                 await em.edit(embed=emb)
                 asyncio.sleep(20)
