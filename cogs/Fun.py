@@ -327,24 +327,96 @@ class Fun:
     
     @commands.command(name='news')
     async def news(self, ctx, *, query):
-            """
-            Retrieve news article
-            
-            Keywords or phrases to search for.
-            ---
-            <query>
-            Advanced search is supported:
-            Surround phrases with quotes (") for exact match.
-            Prepend words or phrases that must appear with a + symbol. Eg: +bitcoin
-            Prepend words that must not appear with a - symbol. Eg: -bitcoin
-            Alternatively you can use the AND / OR / NOT keywords, and optionally group these with parenthesis. Eg: crypto AND (ethereum OR litecoin) NOT bitcoin.
-            ----
-            Usage examples:
-            - f.news Donald Trump +twitter -covfefe
-            - f.news youtube NOT pewdiepie
-            """
-            newsapi = NewsApiClient(newsapi_key)
-            await ctx.send('WIP')  # Placeholder
+        """
+        Retrieve news article
+
+        Keywords or phrases to search for.
+        ---
+        <query>
+        Advanced search is supported:
+        Surround phrases with quotes (") for exact match.
+        Prepend words or phrases that must appear with a + symbol. Eg: +bitcoin
+        Prepend words that must not appear with a - symbol. Eg: -bitcoin
+        Alternatively you can use the AND / OR / NOT keywords, and optionally group these with parenthesis. Eg: crypto AND (ethereum OR litecoin) NOT bitcoin.
+        ----
+        Usage examples:
+        - f.news Donald Trump +twitter -covfefe
+        - f.news youtube NOT pewdiepie
+        """
+        news = NewsApiClient(newsapi_key)
+        try:
+            async with ctx.typing():
+                result = news.get_everything(q=query, sort_by='relevancy', page_size=10)
+                index = 0
+                limit = len(result['articles']) - 1
+
+                src_link = result['articles'][index]['url']
+                author = result['articles'][index]['author']
+                source = f"{result['articles'][index]['source']['name']} ({author})\n[Direct Link]({src_link})"
+                title = result['articles'][index]['title']
+                desc = result['articles'][index]['description']
+                preview = result['articles'][index]['content']
+                date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
+                img = result['articles'][index]['urlToImage']
+
+                emb = discord.Embed(title=title,
+                                    description=desc,
+                                    timestamp=datetime.datetime.utcnow(),
+                                    colour=discord.Colour.dark_gold())
+                emb.add_field(name='Preview', value=preview, inline=False)
+                emb.add_field(name='Source', value=source, inline=True)
+                emb.add_field(name='Date', value=date, inline=True)
+                emb.set_thumbnail(url=img)
+        except KeyError:
+            return await ctx.send('Not found')
+
+        em = await ctx.send(embed=emb)
+        await em.add_reaction('◀')
+        await em.add_reaction('▶')
+
+        def check(reaction, user):
+            return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶']
+
+        while True:
+            try:
+                reaction, user = await self.bot.wait_for('reaction_add', timeout=10, check=check)
+            except asyncio.TimeoutError:
+                await em.clear_reactions()
+            else:
+                if str(reaction.emoji) == '▶':
+                    index += 1
+                    await em.remove_reaction('▶', ctx.message.author)
+                    if index > limit:
+                        index -= 1
+                        continue
+
+                elif str(reaction.emoji) == '◀':
+                    index -= 1
+                    await em.remove_reaction('◀', ctx.message.author)
+                    if index < 0:
+                        index += 1
+                        continue
+
+                src_link = result['articles'][index]['url']
+                author = result['articles'][index]['author']
+                source = f"{result['articles'][index]['source']['name']} ({author})\n[Direct Link]({src_link})"
+                title = result['articles'][index]['title']
+                desc = result['articles'][index]['description']
+                preview = result['articles'][index]['content']
+                date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
+                img = result['articles'][index]['urlToImage']
+
+                emb = discord.Embed(title=title,
+                                    description=desc,
+                                    timestamp=datetime.datetime.utcnow(),
+                                    colour=discord.Colour.dark_gold())
+                emb.add_field(name='Preview', value=preview, inline=False)
+                emb.add_field(name='Source', value=source, inline=True)
+                emb.add_field(name='Date', value=date, inline=True)
+                emb.set_thumbnail(url=img)
+
+                await em.edit(embed=emb)
+                asyncio.sleep(20)
     
     @commands.command(name='rhyme')
     async def rhyme(self, ctx, *, phrase):
