@@ -21,7 +21,7 @@ class Fun:
 
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(name='urban', aliases=['ud'])
-    async def urban(self, ctx, *, word, ):
+    async def urban(self, ctx, *, word):
         """
         Fetches urban dictionary definitions using the urban dictionary API.
 
