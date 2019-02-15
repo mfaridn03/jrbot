@@ -154,7 +154,7 @@ class Fun:
             await em.add_reaction('▶')
 
             def check(reaction, user):
-                return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶']
+                return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶'] and reaction.message.id == em.id
 
             while True:
                 try:
