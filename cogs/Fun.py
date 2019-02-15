@@ -376,13 +376,13 @@ class Fun:
         await em.add_reaction('▶')
 
         def check(reaction, user):
-            return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶']
+            return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶'] and reaction.message.id == em.id
 
         while True:
             try:
                 reaction, user = await self.bot.wait_for('reaction_add', timeout=10, check=check)
             except asyncio.TimeoutError:
-                await em.clear_reactions()
+                return await em.clear_reactions()
             else:
                 if str(reaction.emoji) == '▶':
                     index += 1
