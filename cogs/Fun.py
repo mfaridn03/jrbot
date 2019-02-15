@@ -381,7 +381,7 @@ class Fun:
 
         while True:
             try:
-                reaction, user = await self.bot.wait_for('reaction_add', timeout=10, check=check)
+                reaction, user = await self.bot.wait_for('reaction_add', timeout=30, check=check)
             except asyncio.TimeoutError:
                 return await em.clear_reactions()
             else:
