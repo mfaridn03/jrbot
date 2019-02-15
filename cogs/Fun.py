@@ -330,7 +330,7 @@ class Fun:
         """
         Retrieve news article
 
-        Keywords or phrases to search for.
+        query: Keywords or phrases to search for.
         ---
         <query>
         Advanced search is supported:
@@ -342,6 +342,7 @@ class Fun:
         Usage examples:
         - f.news Donald Trump +twitter -covfefe
         - f.news youtube NOT pewdiepie
+        - f.news discordapp
         """
         news = NewsApiClient(newsapi_key)
         try:
