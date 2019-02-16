@@ -379,12 +379,12 @@ class Fun:
         sortby = arg[2]
         # This is gonna be improved
         
-        await ctx.send(arg)  # Testing
+        # await ctx.send(f'{query}, {lang}, {sortby})\
         news = NewsApiClient(newsapi_key)
         
         try:
             async with ctx.typing():
-                result = news.get_everything(q=argument, language=lang, sort_by=sortby, page_size=10)
+                result = news.get_everything(q=query, language=lang, sort_by=sortby, page_size=10)
                 index = 0
                 limit = len(result['articles']) - 1
 
