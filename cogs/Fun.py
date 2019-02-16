@@ -337,7 +337,7 @@ class Fun:
           The keywords to search for
         
         --lang
-          The language for the article (default=english)
+          The language for the article
         Options:
         ar: Arabic
         de: Deustch (German)
@@ -352,11 +352,11 @@ class Fun:
         ru: Russian
         
         --sort
-          The order to sort the article by (default=relevancy)
+          The order to sort the article by
         Options:
           relevancy, popularity, publishedAt
         ____________________________
-        --query:
+        --q:
         Advanced search is supported:
         Surround phrases with quotes (") for exact match.
         Prepend words or phrases that must appear with a + symbol. Eg: +bitcoin
@@ -364,19 +364,27 @@ class Fun:
         Alternatively you can use the AND / OR / NOT keywords, and optionally group these with parenthesis. Eg: crypto AND (ethereum OR litecoin) NOT bitcoin.
         ____________________________
         Usage examples:
-        - f.news --q Donald Trump +twitter -covfefe --language fr
+        - f.news --q Donald Trump +twitter -covfefe --language fr --sort relevancy
         - f.news --q youtube NOT pewdiepie --sort publishedAt
         - f.news --q discordapp
         """
         args = argument.replace('--q', '|[]|').replace('--lang', '|[]|').replace('--sort', '|[]|')
         args = args.split('|[]|')
         arg = [ar.rstrip().lstrip() for ar in args if ar != '']
+            
+        if len(arg) != 3:
+            return await ctx.send('All parameters required. Type `f.help news` for more info')
+        query = arg[0]
+        lang = arg[1]
+        sortby = arg[2]
+        # This is gonna be improved
+        
         await ctx.send(arg)  # Testing
         news = NewsApiClient(newsapi_key)
-        """
+        
         try:
             async with ctx.typing():
-                result = news.get_everything(q=argument, sort_by='relevancy', page_size=10)
+                result = news.get_everything(q=argument, language=lang, sort_by=sortby, page_size=10)
                 index = 0
                 limit = len(result['articles']) - 1
 
@@ -400,6 +408,8 @@ class Fun:
                 emb.set_footer(text='Powered by News API | https://newsapi.org', icon_url=ctx.author.avatar_url)
         except KeyError:
             return await ctx.send('Not found')
+        except ValueError:
+            return await ctx.send('Wrong language or wrong sort. Type `f.help news` for more info')
 
         em = await ctx.send(embed=emb)
         await em.add_reaction('◀')
@@ -448,7 +458,7 @@ class Fun:
                 emb.set_footer(text='Powered by News API | https://newsapi.org', icon_url=ctx.author.avatar_url)
 
                 await em.edit(embed=emb)
-                asyncio.sleep(20)"""
+                asyncio.sleep(20)
     
     @commands.command(name='rhyme')
     async def rhyme(self, ctx, *, phrase):
