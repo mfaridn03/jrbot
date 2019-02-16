@@ -328,33 +328,33 @@ class Fun:
     @commands.command(name='news')
     async def news(self, ctx, *, argument):
         """
-        Retrieve news article
+        Retrieve news article/s
 
         Args:
-        Query comes first, then sort, then language
-        --q OR --query
-        The keywords to search for
+        Query comes first, then language, then sort
         
-        --lang OR --language
-        The language for the article (default=english)
+        --q
+          The keywords to search for
+        
+        --lang
+          The language for the article (default=english)
         Options:
         ar: Arabic
         de: Deustch (German)
         en: English
         es: Espanol
-        fr
-        he
-        it
-        nl
-        no
-        pt
-        ru
-        ud
+        fr: French
+        he: Hebrew
+        it: Italian
+        nl: Dutch
+        no: Norwegian
+        pt: Portuguese
+        ru: Russian
         
         --sort
-        The order to sort the article by (default=relevancy)
+          The order to sort the article by (default=relevancy)
         Options:
-        relevancy, popularity, publishedAt
+          relevancy, popularity, publishedAt
         ____________________________
         --query:
         Advanced search is supported:
@@ -368,7 +368,12 @@ class Fun:
         - f.news --q youtube NOT pewdiepie --sort publishedAt
         - f.news --q discordapp
         """
+        args = argument.replace('--q', '|[]|').replace('--lang', '|[]|').replace('--sort', '|[]|')
+        args = args.split('|[]|')
+        arg = [ar.rstrip().lstrip() for ar in args if ar != '']
+        await ctx.send(arg)  # Testing
         news = NewsApiClient(newsapi_key)
+        """
         try:
             async with ctx.typing():
                 result = news.get_everything(q=argument, sort_by='relevancy', page_size=10)
@@ -443,7 +448,7 @@ class Fun:
                 emb.set_footer(text='Powered by News API | https://newsapi.org', icon_url=ctx.author.avatar_url)
 
                 await em.edit(embed=emb)
-                asyncio.sleep(20)
+                asyncio.sleep(20)"""
     
     @commands.command(name='rhyme')
     async def rhyme(self, ctx, *, phrase):
