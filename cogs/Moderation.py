@@ -197,6 +197,32 @@ class Moderation:
             emb.set_thumbnail(url=icon)
         
         await ctx.send(embed=emb)
+    
+    @commands.command(name='avatar')
+    async def avatar(self, ctx, member=None):
+        """
+        Get the avatar of yourself or a member
+        
+        Usage examples:
+        - f.avatar
+        - f.avatar John12
+        - f.avatar 235148962103951360
+        - f.avatar @Farid#0001
+        """
+        if member:
+            try:
+                m = await commands.MemberConverter().convert(ctx, member)
+            except commands.BadArgument:
+                return await ctx.send(f'Member {member} not found')
+        else:
+            m = ctx.author
+            
+        desc = f'[Link]({m.avatar_url})'
+        emb = discord.Embed(title=f"{str(m)}'s avatar",
+                            description=desc,
+                            colour=m.colour)
+        emb.set_image(url=m.avatar_url)
+        await ctx.send(embed=emb)
 
 
 def setup(bot):
