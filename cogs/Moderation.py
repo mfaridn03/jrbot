@@ -175,6 +175,7 @@ class Moderation:
         members += f"\nBots: {len([b for b in guild.members if b.bot])}"
         created_at = str(guild.created_at)[:10]
         roles = f"{len(guild.roles)}\nTop role: {guild.roles[-1].mention}"
+        icon = guild.icon_url
         
         emb = discord.Embed(title='Server info',
                             description=f'**Name:** {name}',
@@ -187,6 +188,8 @@ class Moderation:
         emb.add_field(name='Members', value=members)
         emb.add_field(name='Roles', value=roles)
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+        if 'icon' in icon:
+            emb.set_thumbnail(url=icon)
         
         await ctx.send(embed=emb)
 
