@@ -176,13 +176,18 @@ class Moderation:
         created_at = str(guild.created_at)[:10]
         roles = f"{len(guild.roles)}\nTop role: {guild.roles[-1].mention}"
         icon = guild.icon_url
+        verif = guild.verification_level
+        vc_region = guild.region
+        content_filter = guild.explicit_content_filter
+        internals = f"Verification level: {verif}\nVoice region: {vc_region}\nContent filter: {content_filter}"
         
         emb = discord.Embed(title='Server info',
-                            description=f'**Name:** {name}',
+                            description=f'**Name:** {name}\n**ID**: {guild.id}',
                             colour=discord.Colour.dark_teal(),
                             timestamp=datetime.datetime.utcnow())
         emb.add_field(name='Owner', value=owner)
         emb.add_field(name='Created at', value=created_at)
+        emb.add_field(name='Internals', value=internals)
         emb.add_field(name='AFK Channel', value=afk)
         emb.add_field(name='Channels', value=channels)
         emb.add_field(name='Members', value=members)
