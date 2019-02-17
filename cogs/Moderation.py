@@ -122,12 +122,13 @@ class Moderation:
         - f.info Sai#8985
         - f.info Tiger
         """
-        if not member:
-            member = ctx.author
-        try:
-            m = await commands.MemberConverter().convert(ctx, member)
-        except commands.BadArgument:
-            return await ctx.send(f'Member {member} not found')
+        if member:
+            try:
+                m = await commands.MemberConverter().convert(ctx, member)
+            except commands.BadArgument:
+                return await ctx.send(f'Member {member} not found')
+        else:
+            m = ctx.author
         
         username = str(m)
         display_name = m.display_name
@@ -143,7 +144,7 @@ class Moderation:
                             description=f'**Display name:** {display_name}',
                             colour=col,
                             timestamp=datetime.datetime.utcnow())
-        emb.add_field(name='id', value=str(uid))
+        emb.add_field(name='User ID', value=str(uid))
         emb.add_field(name='Bot user?', value=is_bot)
         emb.add_field(name='Roles (lowest to highest)', value=roles)
         emb.add_field(name=f'Joined {ctx.guild.name} at', value=joined)
