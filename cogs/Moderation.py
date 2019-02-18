@@ -9,7 +9,7 @@ class Moderation:
         self.logging_channel = 537983096633688075
     
     @commands.is_owner()
-    @commands.command(name='test')
+    @commands.command(name='test', hidden=True)
     async def test(self, ctx, *, args):
         """Test command"""
         await ctx.send(args)
