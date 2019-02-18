@@ -7,6 +7,12 @@ class Moderation:
     def __init__(self, bot):
         self.bot = bot
         self.logging_channel = 537983096633688075
+    
+    @commands.is_owner()
+    @commands.command(name='test')
+    async def test(self, ctx, *, args):
+        """Test command"""
+        await ctx.send(args)
 
     @commands.has_permissions(kick_members=True)
     @commands.command(mame='kick')
