@@ -13,6 +13,7 @@ class Moderation:
     async def test(self, ctx, *, args):
         """Test command"""
         await ctx.send(args)
+        await ctx.send(len(args))
 
     @commands.has_permissions(kick_members=True)
     @commands.command(mame='kick')
