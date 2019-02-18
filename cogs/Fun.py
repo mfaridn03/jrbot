@@ -406,7 +406,8 @@ class Fun:
                 emb.add_field(name='Source', value=source, inline=True)
                 emb.add_field(name='Date', value=date, inline=True)
                 emb.set_thumbnail(url=img)
-                emb.set_footer(text='Powered by News API | https://newsapi.org', icon_url=ctx.author.avatar_url)
+                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
+                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
         except KeyError:
             return await ctx.send('Not found')
         except ValueError:
@@ -456,7 +457,8 @@ class Fun:
                 emb.add_field(name='Source', value=source, inline=True)
                 emb.add_field(name='Date', value=date, inline=True)
                 emb.set_thumbnail(url=img)
-                emb.set_footer(text='Powered by News API | https://newsapi.org', icon_url=ctx.author.avatar_url)
+                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
+                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
 
                 await em.edit(embed=emb)
                 asyncio.sleep(20)
