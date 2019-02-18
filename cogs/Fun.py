@@ -371,6 +371,7 @@ class Fun:
         args = argument.replace('--q', '|[]|').replace('--lang', '|[]|').replace('--sort', '|[]|')
         args = args.split('|[]|')
         arg = [ar.rstrip().lstrip() for ar in args if ar != '']
+        await ctx.send(f'{len(arg)}\n{arg}')  # Temp
             
         if len(arg) != 3:
             return await ctx.send('All parameters required. Type `f.help news` for more info')
