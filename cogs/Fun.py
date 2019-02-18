@@ -492,7 +492,7 @@ class Fun:
                     desc += f"**Word:** {entry['word']}\n**Accuracy:** {round((entry['score']/3), 2)}%\n\n"
             emb = discord.Embed(title=f'Rhymes of "{phrase}"', timestamp=datetime.datetime.utcnow(),
                                 color=discord.Colour.blue(), description=desc)
-            emb.set_footer(text=ctx.author, icon_url=ctx.author.icon_url)
+            emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=emb)
     
     @commands.command(name='achievement', aliases=['ach'])
