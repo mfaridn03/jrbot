@@ -506,7 +506,7 @@ class Fun:
         """
         text = urllib.parse.quote(text)
         url = f"https://api.alexflipnote.xyz/achievement?text={text}"
-        emb = discord.Embed(title=discord.Embed.empty)
+        emb = discord.Embed(title=discord.Embed.Empty)
         emb.set_image(url=url)
         await ctx.send(embed=emb)
         
