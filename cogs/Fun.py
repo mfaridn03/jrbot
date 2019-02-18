@@ -1,12 +1,14 @@
-from discord.ext import commands
 import datetime
 import asyncio
-import discord
 import requests
 import json
-import urllib.request
-from bs4 import BeautifulSoup
 import os
+
+import discord
+from discord.ext import commands
+import urllib.request
+import urllib
+from bs4 import BeautifulSoup
 from newsapi import NewsApiClient
 
 newsapi_key = os.getenv('NEWSAPI_KEY')
@@ -491,8 +493,24 @@ class Fun:
             emb = discord.Embed(title=f'Rhymes of "{phrase}"', timestamp=datetime.datetime.utcnow(),
                                 color=discord.Colour.blue(), description=desc)
             emb.set_footer(text=ctx.author, icon_url=ctx.author.icon_url)
+        return await ctx.send(embed=emb)
+    
+    @commands.command(name='achievement', aliases=['ach'])
+    async def achivement(self, ctx, *, text):
+        """
+        Gets a minecraft achivement message with text <text>
+        
+        Usage examples:
+        - f.achievement studying
+        - f.ach actually not dying
+        """
+        text = urllib.parse.quote(text)
+        url = f"https://api.alexflipnote.xyz/achievement?text={text}"
+        emb = discord.Embed(title=discord.Embed.empty)
+        emb.set_image(url=url)
         await ctx.send(embed=emb)
+        
             
-           
+                               
 def setup(bot):
     bot.add_cog(Fun(bot))
