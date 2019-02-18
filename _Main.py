@@ -5,7 +5,11 @@ import os
 extensions = ['Fun', 'Moderation']
 
 desc = "Farid's home-made bot for his personal server"
-bot = commands.Bot(command_prefix=['f.', 'ff '], description=desc)
+bot = commands.Bot(command_prefix=['f.', 'ff '],
+                   description=desc,
+                   status=discord.Status.idle,
+                   activity=discord.Activity(name='myself booting...',
+                                             type=discord.ActivityType.watching))
 
 
 @bot.event
