@@ -3,8 +3,6 @@ import discord
 import os
 import traceback
 
-extensions = ['Fun', 'Moderation']
-
 desc = "Farid's home-made bot for his personal server"
 bot = commands.Bot(command_prefix=['f.', 'ff '],
                    description=desc,
@@ -67,6 +65,7 @@ async def on_raw_reaction_remove(data):
 
 
 if __name__ == '__main__':
+    extensions = ['Fun', 'Info']
     for e in extensions:
         try:
             bot.load_extension(f"cogs.{e}")
