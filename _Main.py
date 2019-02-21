@@ -71,6 +71,6 @@ if __name__ == '__main__':
             bot.load_extension(f"cogs.{e}")
             bot.load_extension('jishaku')
         except Exception as er:
-            print(repr(e))
+            print(repr(er))
 
 bot.run(os.getenv('TOKEN'))  # Nice try
