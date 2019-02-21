@@ -71,6 +71,6 @@ if __name__ == '__main__':
             bot.load_extension(f"cogs.{e}")
             bot.load_extension('jishaku')
         except Exception as er:
-            print(f"Failed to load extension {e}:\n{type(er).__name__}: {er}")
+            print(repr(e))
 
 bot.run(os.getenv('TOKEN'))  # Nice try
