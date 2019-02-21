@@ -327,7 +327,7 @@ class Fun:
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         await ctx.send(embed=emb)
     
-    @commands.command(name='news')
+    @commands.command(name='newsbeta')
     async def news(self, ctx, *, argument):
         """
         Retrieve news article/s
@@ -388,6 +388,106 @@ class Fun:
         try:
             async with ctx.typing():
                 result = news.get_everything(q=query, language=lang, sort_by=sortby, page_size=10)
+                index = 0
+                limit = len(result['articles']) - 1
+
+                src_link = result['articles'][index]['url']
+                author = result['articles'][index]['author']
+                source = f"{result['articles'][index]['source']['name']} ({author})\n[Direct Link]({src_link})"
+                title = result['articles'][index]['title']
+                desc = result['articles'][index]['description']
+                preview = result['articles'][index]['content']
+                date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
+                img = result['articles'][index]['urlToImage']
+
+                emb = discord.Embed(title=title,
+                                    description=desc,
+                                    timestamp=datetime.datetime.utcnow(),
+                                    colour=discord.Colour.dark_gold())
+                emb.add_field(name='Preview', value=preview, inline=False)
+                emb.add_field(name='Source', value=source, inline=True)
+                emb.add_field(name='Date', value=date, inline=True)
+                emb.set_thumbnail(url=img)
+                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
+                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
+        except KeyError:
+            return await ctx.send('Not found')
+        except ValueError:
+            return await ctx.send('Wrong language or wrong sort. Type `f.help news` for more info')
+
+        em = await ctx.send(embed=emb)
+        await em.add_reaction('◀')
+        await em.add_reaction('▶')
+
+        def check(reaction, user):
+            return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶'] and reaction.message.id == em.id
+
+        while True:
+            try:
+                reaction, user = await self.bot.wait_for('reaction_add', timeout=30, check=check)
+            except asyncio.TimeoutError:
+                return await em.clear_reactions()
+            else:
+                if str(reaction.emoji) == '▶':
+                    index += 1
+                    await em.remove_reaction('▶', ctx.message.author)
+                    if index > limit:
+                        index -= 1
+                        continue
+
+                elif str(reaction.emoji) == '◀':
+                    index -= 1
+                    await em.remove_reaction('◀', ctx.message.author)
+                    if index < 0:
+                        index += 1
+                        continue
+
+                src_link = result['articles'][index]['url']
+                author = result['articles'][index]['author']
+                source = f"{result['articles'][index]['source']['name']} ({author})\n[Direct Link]({src_link})"
+                title = result['articles'][index]['title']
+                desc = result['articles'][index]['description']
+                preview = result['articles'][index]['content']
+                date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
+                img = result['articles'][index]['urlToImage']
+
+                emb = discord.Embed(title=title,
+                                    description=desc,
+                                    timestamp=datetime.datetime.utcnow(),
+                                    colour=discord.Colour.dark_gold())
+                emb.add_field(name='Preview', value=preview, inline=False)
+                emb.add_field(name='Source', value=source, inline=True)
+                emb.add_field(name='Date', value=date, inline=True)
+                emb.set_thumbnail(url=img)
+                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
+                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
+
+                await em.edit(embed=emb)
+                asyncio.sleep(20)
+    
+    @commands.command(name='news')
+    async def news(self, ctx, *, argument):
+        """
+        Retrieve news article/s
+        <argument> : News search query. Sorting = relevancy, language = English
+        ____________________________
+        --q:
+        Advanced search is supported:
+        Surround phrases with quotes (") for exact match.
+        Prepend words or phrases that must appear with a + symbol. Eg: +bitcoin
+        Prepend words that must not appear with a - symbol. Eg: -bitcoin
+        Alternatively you can use the AND / OR / NOT keywords, and optionally group these with parenthesis. Eg: crypto AND (ethereum OR litecoin) NOT bitcoin.
+        ____________________________
+        Usage examples:
+        - f.news Discordapp
+        - f.news telegram +security
+        - f.news bush "conspiracy"
+        """
+        news = NewsApiClient(newsapi_key)
+        
+        try:
+            async with ctx.typing():
+                result = news.get_everything(q=argument, language='en', sort_by='relevancy', page_size=10)
                 index = 0
                 limit = len(result['articles']) - 1
 
