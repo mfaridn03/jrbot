@@ -22,14 +22,6 @@ class Moderation:
         self.logging_channel = 537983096633688075
     
     @pguild()
-    @commands.is_owner()
-    @commands.command(name='test', hidden=True)
-    async def test(self, ctx, *, args):
-        """Test command"""
-        await ctx.send(args)
-        await ctx.send(len(args))
-    
-    @pguild()
     @commands.has_permissions(kick_members=True)
     @commands.command(mame='kick')
     async def kick(self, ctx, member, *, reason=None):
