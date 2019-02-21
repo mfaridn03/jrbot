@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import os
+import traceback
 
 extensions = ['Fun', 'Moderation']
 
@@ -70,7 +71,7 @@ if __name__ == '__main__':
         try:
             bot.load_extension(f"cogs.{e}")
             bot.load_extension('jishaku')
-        except Exception as er:
-            print(repr(er))
+        except:
+            print(traceback.format_exc())
 
 bot.run(os.getenv('TOKEN'))  # Nice try
