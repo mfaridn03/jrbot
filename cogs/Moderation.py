@@ -12,7 +12,7 @@ class PersonalServerOnly(commands.CheckFailure):
 
 def pguild():
     async def predicate(ctx):
-        if ctx.guild.owner.id == id:
+        if ctx.guild.owner_id == 191036924570501120:
             return True
         raise PersonalServerOnly("This command is only for personal server")
 
