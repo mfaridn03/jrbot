@@ -3,18 +3,33 @@ import discord
 import datetime
 
 
+class PersonalServerOnly(commands.CheckFailure):
+    """
+    Moderation commands are only for personal server
+    """
+    pass
+
+
+def pguild():
+    async def predicate(ctx):
+        if ctx.guild.owner.id == id:
+            return True
+        raise PersonalServerOnly("This command is only for personal server")
+
 class Moderation:
     def __init__(self, bot):
         self.bot = bot
         self.logging_channel = 537983096633688075
     
+    @pguild()
     @commands.is_owner()
     @commands.command(name='test', hidden=True)
     async def test(self, ctx, *, args):
         """Test command"""
         await ctx.send(args)
         await ctx.send(len(args))
-
+    
+    @pguild()
     @commands.has_permissions(kick_members=True)
     @commands.command(mame='kick')
     async def kick(self, ctx, member, *, reason=None):
@@ -45,7 +60,8 @@ class Moderation:
         emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
         await ctx.message.add_reaction('✅')
         await log_channel.send(embed=emb)
-
+    
+    @pguild()
     @commands.has_permissions(ban_members=True)
     @commands.command(name='ban')
     async def ban(self, ctx, member, *, reason=None):
@@ -75,7 +91,8 @@ class Moderation:
         emb.set_footer(text=f'Mod: {ctx.author}', icon_url=ctx.author.avatar_url)
         await ctx.message.add_reaction('✅')
         await log_channel.send(embed=emb)
-
+    
+    @pguild()
     @commands.has_permissions(ban_members=True)
     @commands.command(name='unban')
     async def unban(self, ctx, user_id, *, reason=None):
@@ -103,12 +120,14 @@ class Moderation:
         await ctx.message.add_reaction('✅')
         await log_channel.send(embed=emb)
     
+    @pguild()
     @commands.is_owner()
     @commands.command(name='echo', aliases=['say'], hidden=True)
     async def echo(self, ctx, *, msg):
         await ctx.message.delete()
         await ctx.send(msg)
-
+    
+    @pguild()
     @commands.command(name='verify', hidden=True)
     async def verify(self, ctx):
         if ctx.channel.id != 534754067998834688:
