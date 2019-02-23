@@ -145,8 +145,10 @@ class Info:
         members = len(self.bot.users)
         servers = len(self.bot.guilds)
         
+        owner = discord.utils.get(self.bot.users, id=191036924570501120)
+        
         emb = discord.Embed(title='Bot information', colour=ctx.guild.me.colour)
-        emb.add_field(name='Created by', value='<@191036924570501120>')
+        emb.add_field(name='Created by', value=f'{owner.mention} ({owner})')
         emb.add_field(name='Library', value=f"{py}\nVersion: {ver}")
         emb.add_field(name='CPU usage', value=f"{cpu}%")
         emb.add_field(name='Memory usage', value=f"{memory} MiB")
