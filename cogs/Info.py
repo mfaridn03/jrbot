@@ -48,7 +48,7 @@ class Info:
         uid = m.id
         avatar = m.avatar_url
         is_bot = m.bot
-        roles = ' '.join([role.mention for role in m.roles])
+        roles = '\n'.join([role.mention for role in m.roles])
         joined = str(m.joined_at)[:10]
         created = str(m.created_at)[:10]
 
