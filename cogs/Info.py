@@ -13,6 +13,13 @@ idle_id = 548809986982281266
 class Info:
     def __init__(self, bot):
         self.bot = bot
+    
+    @commands.command(name='invite')
+    async def invite(self, ctx):
+        """Invite me!"""
+        await ctx.send(
+            """https://discordapp.com/api/oauth2/authorize?
+            client_id=537570246626902016&permissions=470154305&scope=bot""")
 
     @commands.command(name='verify', hidden=True)
     async def verify(self, ctx):
