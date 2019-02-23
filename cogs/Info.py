@@ -1,6 +1,8 @@
 from discord.ext import commands
 import discord
 import datetime
+import psutil
+import os
 
 
 class Info:
@@ -127,6 +129,30 @@ class Info:
                             description=desc,
                             colour=m.colour)
         emb.set_image(url=m.avatar_url)
+        await ctx.send(embed=emb)
+    
+    @commands.command(name='bot')
+    async def botinfo(self, ctx):
+        """
+        Retrieves info about the bot
+        """
+        process = psutil.Process(os.getpid()))
+        
+        cpu = process.cpu_percent() / psutil.cpu_count()
+        memory = process.memory_full_info().uss / (1024 ** 2)
+        py = f"[discord.py - rewrite](https://github.com/Rapptz/discord.py/tree/rewrite)"
+        ver = 'Python 3.6.6'
+        members = len(self.bot.users)
+        servers = len(self.bot.guilds)
+        
+        emb = discord.Embed(title='Bot information', colour=ctx.guild.me.colour)
+        emb.add_field(name='Created by', value='<@191036924570501120>')
+        emb.add_field(name='Library', value=f"{py}\Version: {ver}")
+        emb.add_field(name='CPU usage', value=f"{cpu}%")
+        emb.add_field(name='Memory usage', value=f"{memory} MiB")
+        emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
+        emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+        
         await ctx.send(embed=emb)
 
 
