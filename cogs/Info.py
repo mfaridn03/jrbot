@@ -139,7 +139,7 @@ class Info:
         process = psutil.Process(os.getpid())
         
         cpu = process.cpu_percent() / psutil.cpu_count()
-        memory = process.memory_full_info().uss / (1024 ** 2)
+        memory = round((process.memory_full_info().uss / (1024 ** 2)), 2)
         py = f"[discord.py - rewrite](https://github.com/Rapptz/discord.py/tree/rewrite)"
         ver = 'Python 3.6.6'
         members = len(self.bot.users)
@@ -147,7 +147,7 @@ class Info:
         
         emb = discord.Embed(title='Bot information', colour=ctx.guild.me.colour)
         emb.add_field(name='Created by', value='<@191036924570501120>')
-        emb.add_field(name='Library', value=f"{py}\Version: {ver}")
+        emb.add_field(name='Library', value=f"{py}\nVersion: {ver}")
         emb.add_field(name='CPU usage', value=f"{cpu}%")
         emb.add_field(name='Memory usage', value=f"{memory} MiB")
         emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
