@@ -103,7 +103,8 @@ class Info:
         dnders = len([a for a in ctx.guild.members if str(a.status) == 'dnd'])
         idlers = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
         
-        member_status = f"{online} {onliners}\n{offline} {offliners}\n{dnd} {dnders}\n{idle} {idlers}"
+        member_status = f"\n{online} {onliners}\n{offline} {offliners}\n{dnd} {dnders}\n{idle} {idlers}"
+        members += member_status
 
         emb = discord.Embed(title='Server info',
                             description=f'**Name:** {name}\n**ID**: {guild.id}',
@@ -115,7 +116,6 @@ class Info:
         emb.add_field(name='AFK Channel', value=afk)
         emb.add_field(name='Channels', value=channels)
         emb.add_field(name='Members', value=members)
-        emb.add_field(name='Member statuses', value=member_status)
         emb.add_field(name='Roles', value=roles)
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         if 'icon' in icon:
