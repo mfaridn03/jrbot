@@ -136,7 +136,7 @@ class Info:
         """
         Retrieves info about the bot
         """
-        process = psutil.Process(os.getpid()))
+        process = psutil.Process(os.getpid())
         
         cpu = process.cpu_percent() / psutil.cpu_count()
         memory = process.memory_full_info().uss / (1024 ** 2)
