@@ -618,11 +618,8 @@ class Fun:
         Usage examples:
         - f.gifsearch how to make a bot
         """
-        url = f"lmgtfy.com/?q{text}" 
-        emb = discord.Embed(title=discord.Embed.Empty)
-        emb.set_image(url=url)
-                               
-        await ctx.send(embed=emb)
+        url = f"lmgtfy.com/?q{text}"                   
+        await ctx.send(url)
             
                                
 def setup(bot):
