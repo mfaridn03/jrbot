@@ -18,8 +18,8 @@ class Info:
     async def invite(self, ctx):
         """Invite me!"""
         await ctx.send(
-            """https://discordapp.com/api/oauth2/authorize?
-            client_id=537570246626902016&permissions=470154305&scope=bot""")
+            """https://discordapp.com/api/oauth2/authorize?"""
+            """client_id=537570246626902016&permissions=470154305&scope=bot""")
 
     @commands.command(name='verify', hidden=True)
     async def verify(self, ctx):
