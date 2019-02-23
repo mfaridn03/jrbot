@@ -101,7 +101,7 @@ class Info:
         onliners = len([a for a in ctx.guild.members if str(a.status) == 'online'])
         offliners = len([a for a in ctx.guild.members if str(a.status) == 'offline'])
         dnders = len([a for a in ctx.guild.members if str(a.status) == 'dnd'])
-        idle = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
+        idlers = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
         
         member_status = f"{online} {onliners}\n{offline} {offliners}\n{dnd} {dnders}\n{idle} {idlers}"
 
