@@ -596,7 +596,7 @@ class Fun:
         return await ctx.send(embed=emb)
     
     @commands.command(name='achievement', aliases=['ach'])
-    async def achivement(self, ctx, *, text):
+    async def achievement(self, ctx, *, text):
         """
         Gets a minecraft achivement message with text <text>
         
@@ -618,7 +618,7 @@ class Fun:
         Usage examples:
         - f.gifsearch how to make a bot
         """
-        url = f"lmgtfy.com/?q{text}"                   
+        url = f"https://lmgtfy.com/?q={urllib.parse.quote(text)}"                   
         await ctx.send(url)
             
                                
