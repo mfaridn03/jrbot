@@ -609,7 +609,20 @@ class Fun:
         emb = discord.Embed(title=discord.Embed.Empty)
         emb.set_image(url=url)
         await ctx.send(embed=emb)
+    
+    @commands.command(name='gifsearch')
+    async def gifsearch(self, ctx, *, text):
+        """
+        lmgtfy a text
         
+        Usage examples:
+        - f.gifsearch how to make a bot
+        """
+        url = f"lmgtfy.com/?q{text}" 
+        emb = discord.Embed(title=discord.Embed.Empty)
+        emb.set_image(url=url)
+                               
+        await ctx.send(embed=emb)
             
                                
 def setup(bot):
