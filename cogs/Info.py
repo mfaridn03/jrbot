@@ -52,7 +52,7 @@ class Info:
         roles = '\n'.join([role.mention for role in m.roles[::-1]])
         role_desc = "Roles (highest to lowest)"
         if len(str(roles)) > 512:
-            role_desc = "Top 5 roles (highest to lowest, because too many roles)
+            role_desc = "Top 5 roles (highest to lowest, because too many roles)"
             roles = '\n'.join([roles.mention for role in m.roles[::-1][:5]])
 
         joined = str(m.joined_at)[:10]
