@@ -17,9 +17,10 @@ class Info:
     @commands.command(name='invite')
     async def invite(self, ctx):
         """Invite me!"""
-        emb = discord.Embed(title='Invite me!',
-                            description="""https://discordapp.com/api/oauth2/authorize?"""
-                                        """client_id=537570246626902016&permissions=470154305&scope=bot""")
+        invite_link = "https://discordapp.com/api/oauth2/authorize?client_id=537570246626902016&permissions=470154305&scope=bot"
+        emb = discord.Embed(title=discord.Embed.Empty,
+                            description=invite_link)
+        emb.set_author(name='Invite me!', icon_url = ctx.guild.me.avatar_url)
         await ctx.send(embed=emb)
         
     @commands.command(name='verify', hidden=True)
