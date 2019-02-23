@@ -17,10 +17,11 @@ class Info:
     @commands.command(name='invite')
     async def invite(self, ctx):
         """Invite me!"""
-        await ctx.send(
-            """https://discordapp.com/api/oauth2/authorize?"""
-            """client_id=537570246626902016&permissions=470154305&scope=bot""")
-
+        emb = discord.Embed(title='Invite me!",
+                            description="""https://discordapp.com/api/oauth2/authorize?"""
+                                        """client_id=537570246626902016&permissions=470154305&scope=bot""")
+        await ctx.send(embed=emb)
+        
     @commands.command(name='verify', hidden=True)
     async def verify(self, ctx):
         if ctx.channel.id != 534754067998834688:
@@ -184,7 +185,7 @@ class Info:
         
         owner = discord.utils.get(self.bot.users, id=191036924570501120)
         
-        emb = discord.Embed(title='Bot information', colour=ctx.guild.me.colour)
+        emb = discord.Embed(title='Bot information', colour=ctx.guild.me.colour, timestamp=datetime.datetime.utcnow())
         emb.add_field(name='Created by', value=f'{owner.mention} ({owner})')
         emb.add_field(name='Library', value=f"{py}\nVersion: {ver}")
         emb.add_field(name='CPU usage', value=f"{cpu}%")
