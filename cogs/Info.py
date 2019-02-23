@@ -63,6 +63,12 @@ class Info:
         emb.add_field(name='Created at', value=created)
         emb.set_thumbnail(url=avatar)
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+        
+        if m.id == 537570246626902016:
+            emb.set_author(name="Ayy lmao. It's me")
+        
+        if m.id == 191036924570501120:
+            emb.set_author(name="My master (creator of this bot)")
 
         await ctx.send(embed=emb)
 
