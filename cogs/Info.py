@@ -21,7 +21,7 @@ class Info:
         emb = discord.Embed(title=discord.Embed.Empty,
                             description=invite_link)
         emb.set_author(name='Invite me!')
-        emb.set_thumbnail(ctx.me.avatar_url)
+        emb.set_thumbnail(url=ctx.me.avatar_url)
         await ctx.send(embed=emb)
         
     @commands.command(name='verify', hidden=True)
