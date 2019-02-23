@@ -20,7 +20,8 @@ class Info:
         invite_link = "https://discordapp.com/api/oauth2/authorize?client_id=537570246626902016&permissions=470154305&scope=bot"
         emb = discord.Embed(title=discord.Embed.Empty,
                             description=invite_link)
-        emb.set_author(name='Invite me!', icon_url = ctx.guild.me.avatar_url)
+        emb.set_author(name='Invite me!')
+        emb.set_thumbnail(ctx.me.avatar_url)
         await ctx.send(embed=emb)
         
     @commands.command(name='verify', hidden=True)
@@ -186,7 +187,7 @@ class Info:
         
         owner = discord.utils.get(self.bot.users, id=191036924570501120)
         
-        emb = discord.Embed(title='Bot information', colour=ctx.guild.me.colour, timestamp=datetime.datetime.utcnow())
+        emb = discord.Embed(title='Bot information', colour=ctx.me.colour, timestamp=datetime.datetime.utcnow())
         emb.add_field(name='Created by', value=f'{owner.mention} ({owner})')
         emb.add_field(name='Library', value=f"{py}\nVersion: {ver}")
         emb.add_field(name='CPU usage', value=f"{cpu}%")
