@@ -4,6 +4,11 @@ import datetime
 import psutil
 import os
 
+online_id = 548809986676097035
+offline_id = 548809987086876672
+dnd_id = 548809987212705802
+idle_id = 548809986982281266
+
 
 class Info:
     def __init__(self, bot):
@@ -87,6 +92,18 @@ class Info:
         vc_region = guild.region
         content_filter = guild.explicit_content_filter
         internals = f"Verification level: {verif}\nVoice region: {vc_region}\nContent filter: {content_filter}"
+        
+        online = self.bot.get_emoji(online_id)
+        offline = self.bot.get_emoji(offline_id)
+        dnd = self.bot.get_emoji(dnd_id)
+        idle = self.bot.get_emoji(idle_id)
+        
+        onliners = len([a for a in ctx.guild.members if str(a.status) == 'online'])
+        offliners = len([a for a in ctx.guild.members if str(a.status) == 'offline'])
+        dnders = len([a for a in ctx.guild.members if str(a.status) == 'dnd'])
+        idle = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
+        
+        member_status = f"{online} {onliners}\n{offline} {offliners}\n{dnd} {dnders}\n{idle} {idlers}"
 
         emb = discord.Embed(title='Server info',
                             description=f'**Name:** {name}\n**ID**: {guild.id}',
@@ -98,6 +115,7 @@ class Info:
         emb.add_field(name='AFK Channel', value=afk)
         emb.add_field(name='Channels', value=channels)
         emb.add_field(name='Members', value=members)
+        emb.add_field(name='Member statuses', value=member_status)
         emb.add_field(name='Roles', value=roles)
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         if 'icon' in icon:
@@ -139,15 +157,17 @@ class Info:
         process = psutil.Process(os.getpid())
         
         cpu = process.cpu_percent() / psutil.cpu_count()
-        memory = process.memory_full_info().uss / (1024 ** 2)
+        memory = round((process.memory_full_info().uss / (1024 ** 2)), 2)
         py = f"[discord.py - rewrite](https://github.com/Rapptz/discord.py/tree/rewrite)"
         ver = 'Python 3.6.6'
         members = len(self.bot.users)
         servers = len(self.bot.guilds)
         
+        owner = discord.utils.get(self.bot.users, id=191036924570501120)
+        
         emb = discord.Embed(title='Bot information', colour=ctx.guild.me.colour)
-        emb.add_field(name='Created by', value='<@191036924570501120>')
-        emb.add_field(name='Library', value=f"{py}\Version: {ver}")
+        emb.add_field(name='Created by', value=f'{owner.mention} ({owner})')
+        emb.add_field(name='Library', value=f"{py}\nVersion: {ver}")
         emb.add_field(name='CPU usage', value=f"{cpu}%")
         emb.add_field(name='Memory usage', value=f"{memory} MiB")
         emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
