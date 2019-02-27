@@ -171,7 +171,7 @@ class Info:
         emb.set_image(url=m.avatar_url)
         await ctx.send(embed=emb)
     
-    @commands.command(name='bot')
+    @commands.command(name='bot', aliases=['botinfo'])
     async def botinfo(self, ctx):
         """
         Retrieves info about the bot
@@ -184,6 +184,11 @@ class Info:
         ver = 'Python 3.6.6'
         members = len(self.bot.users)
         servers = len(self.bot.guilds)
+        now = datetime.datetime.utcnow()
+        uptime = now - self.bot.last_boot
+        h, r = divmod(int(uptime.total_seconds()), 3600)
+        m, s = divmod(r, 60)
+        d, h = divmod(h, 24)
         
         owner = discord.utils.get(self.bot.users, id=191036924570501120)
         
@@ -193,6 +198,8 @@ class Info:
         emb.add_field(name='CPU usage', value=f"{cpu}%")
         emb.add_field(name='Memory usage', value=f"{memory} MiB")
         emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
+        emb.add_field(name='Commands since last boot', value=self.bot.commands_done)
+        emb.add_field(name='Uptime', value=f'`{d}`days, `{h}` hours, `{m}` minutes, `{s}` seconds'
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         
         await ctx.send(embed=emb)
