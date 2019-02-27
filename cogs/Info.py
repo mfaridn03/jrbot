@@ -3,6 +3,7 @@ import discord
 import datetime
 import psutil
 import os
+import time
 
 online_id = 548809986676097035
 offline_id = 548809987086876672
@@ -199,11 +200,26 @@ class Info:
         emb.add_field(name='Memory usage', value=f"{memory} MiB")
         emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
         emb.add_field(name='Commands since last boot', value=self.bot.commands_done)
-        emb.add_field(name='Uptime', value=f'`{d}`days, `{h}` hours, `{m}` minutes, `{s}` seconds'
+        emb.add_field(name='Uptime', value=f'`{d}`days, `{h}` hours, `{m}` minutes, `{s}` seconds')
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         
         await ctx.send(embed=emb)
-
+#--#
+    @commands.command(name='ping', aliases=['pong'])
+    async def ping(self, ctx):
+        """Measure the bot's latency"""
+        before = time.perf_counter()
+        await ctx.trigger_typing()
+        after = time.perf_counter()
+        
+        typing = f"`Typing: {round((after-before) * 1000)}`ms"
+        latency = f"`Websocket: {round(self.bot.latency * 1000)}`ms"
+        msg = f"{latency}\n{typing}"
+        
+        sent = time.perf_counter()
+        m = await ctx.send("Pong! :ping_pong:")
+        await m.edit(f"{msg}\nEdit: `{round((time.perf_counter-sent) * 1000)}`ms")
+        
 
 def setup(bot):
     bot.add_cog(Info(bot))
