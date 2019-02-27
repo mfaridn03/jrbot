@@ -23,7 +23,7 @@ class JrBot(commands.Bot):
             )
         )
         self.last_boot = datetime.datetime.utcnow()
-        self.commands_done = 0
+        self.commands_used = 0
 
     async def start(self):
         for extension in extensions:
@@ -32,12 +32,11 @@ class JrBot(commands.Bot):
                 print(f'{extension} loaded!')
             except:
                 print(traceback.format_exc())
-
         print('-----')
         await super().start(token)  # Nice try skids
 
     async def on_command_completion(self, ctx):
-        self.commands_done += 1
+        self.commands_used += 1
 
     async def on_ready(self):
         print(f"Logged in as {self.user}\n"
@@ -50,7 +49,7 @@ class JrBot(commands.Bot):
                 type=discord.ActivityType.watching
             )
         )
-
+#--#
     async def on_message(self, msg):
         ctx = await self.get_context(msg)
 
@@ -66,7 +65,7 @@ class JrBot(commands.Bot):
                 return await msg.delete()
 
         await self.process_commands(msg)
-
+#--#
     async def process_commands(self, msg):
         ctx = await self.get_context(msg)
 
@@ -74,7 +73,7 @@ class JrBot(commands.Bot):
             return
 
         await self.invoke(ctx)
-
+#--#
     async def on_raw_reaction_add(self, data):
         if data.message_id == 541974797933084702:
             guild = self.get_guild(data.guild_id)
