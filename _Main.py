@@ -3,9 +3,10 @@ import discord
 import os
 import traceback
 import datetime
+import sqlite3
 
 desc = "Farid's home-made bot for his personal server"
-extensions = ['cogs.Fun', 'cogs.Info', 'jishaku']
+extensions = ['cogs.Fun', 'cogs.Info', 'jishaku', 'cogs.Economy']
 
 token = os.getenv('TOKEN')
 
@@ -24,6 +25,8 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
+        self.conn = None
+        self.db = None
 
     async def start(self):
         for extension in extensions:
@@ -34,6 +37,10 @@ class JrBot(commands.Bot):
                 print(traceback.format_exc())
         print('-----')
         await super().start(token)  # Nice try skids
+    
+    def init_sqlite(self):
+        self.conn = sqlite3.connect('Data.db', timeout=10)
+        self.db = self.conn.cursor()
 
     async def on_command_completion(self, ctx):
         self.commands_used += 1
