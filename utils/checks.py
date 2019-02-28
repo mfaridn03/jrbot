@@ -1,12 +1,18 @@
 import sqlite3
+from discord.ext import commands
 
-conn = sqlite3.connect('Data.db')
-c = conn.cursor()
 
-class Checks:  # WIP
-    def __init__(self, bot):
-        self.bot = bot
+class NoCharacter(commands.CheckFailure):
+    pass
+
+def has_char():
+    def pred(ctx):
+        res = ctx.bot.db.execute(
+            f'SELECT balance FROM user_balance WHERE userid={ctx.author.id}'
+        )
+        if res:
+            return True
+        raise NoCharacter()
+   
+    return commands.check(pred(ctx))
     
-    def has_char(self, user):
-        pass
-        
