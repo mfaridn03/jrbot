@@ -1,12 +1,9 @@
 import discord
 from discord.ext import commands
-import sqlite3
-from utils import checks
+from utils import check
 
-conn = sqlite3.connect('Data.db')
-c = conn.cursor()
 
-class Economy:
+class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
