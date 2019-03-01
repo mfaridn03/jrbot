@@ -25,7 +25,6 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-        self.conn = None
         self.db = None
 
     async def start(self):
@@ -39,8 +38,8 @@ class JrBot(commands.Bot):
         await super().start(token)  # Nice try skids
     
     def init_sqlite(self):
-        self.conn = sqlite3.connect('Data.db', timeout=10)
-        self.db = self.conn.cursor()
+        conn = sqlite3.connect('Data.db', timeout=10)
+        self.db = conn
 
     async def on_command_completion(self, ctx):
         self.commands_used += 1
@@ -56,6 +55,7 @@ class JrBot(commands.Bot):
                 type=discord.ActivityType.watching
             )
         )
+        self.init_sqlite()
 #--#
     async def on_message(self, msg):
         ctx = await self.get_context(msg)
