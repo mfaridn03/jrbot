@@ -10,6 +10,27 @@ extensions = ['cogs.Fun', 'cogs.Info', 'jishaku', 'cogs.Economy']
 
 token = os.getenv('TOKEN')
 
+
+class Sql:
+    def __init__(self, database):
+        self.database = database
+        self.conn = sqlite3.connect(database, timeout=10)
+    
+    cur = self.conn.cursor()
+    
+    def fetch(self, query, many: bool=False):
+        if many:
+            res = self.cur.execute(query).fetchall()
+        else:
+            res = self.cur.execute(query).fetchone()
+            res = res[0]
+        return res
+    
+    def execute(self, query)
+        self.cur.execute(query)
+        self.conn.commit()
+
+
 class JrBot(commands.Bot):
     def __init__(self):
         super().__init__(
@@ -25,7 +46,7 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-        self.conn = None
+        self.db = Sql('Data.db')
 
     async def start(self):
         for extension in extensions:
@@ -49,10 +70,10 @@ class JrBot(commands.Bot):
               f"ID: {self.user.id}\n"
               f"---------------")
         await self.change_presence(
-            status=discord.Status.dnd,
+            status=discord.Status.online,
             activity=discord.Activity(
                 name='f!help',
-                type=discord.ActivityType.watching
+                type=discord.ActivityType.listening
             )
         )
         self.init_sqlite()
