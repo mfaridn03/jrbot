@@ -27,7 +27,7 @@ class Sql:
     
     def execute(self, query, many: bool=False):
         if many:
-            self.cur.executemany(query)
+            self.cur.executescript(query)
         else:
             self.cur.execute(query)
         self.conn.commit()
