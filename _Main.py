@@ -45,8 +45,8 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-        self.db = None
-
+        self.db = Sql('Data.db')
+        
     async def start(self):
         for extension in extensions:
             try:
@@ -71,7 +71,8 @@ class JrBot(commands.Bot):
                 type=discord.ActivityType.listening
             )
         )
-        self.db = Sql('Data.db')
+        with open("setup/schema.sql") as setup:
+            self.db.execute(setup.read())
 #--#
     async def on_message(self, msg):
         ctx = await self.get_context(msg)
