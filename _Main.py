@@ -25,7 +25,7 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-        self.db = None
+        self.conn = None
 
     async def start(self):
         for extension in extensions:
