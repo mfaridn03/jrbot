@@ -6,9 +6,6 @@ class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    db = self.bot.conn.cursor()
-    conn = self.bot.conn
-    
     @commands.command(name='create')
     async def create(self, ctx):
         """
