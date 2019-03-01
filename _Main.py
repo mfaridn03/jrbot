@@ -25,8 +25,11 @@ class Sql:
             res = res[0]
         return res
     
-    def execute(self, query):
-        self.cur.execute(query)
+    def execute(self, query, many: bool=False):
+        if many:
+            self.cur.executemany(query)
+        else:
+            self.cur.execute(query)
         self.conn.commit()
 
 
@@ -65,14 +68,14 @@ class JrBot(commands.Bot):
               f"ID: {self.user.id}\n"
               f"---------------")
         await self.change_presence(
-            status=discord.Status.online,
+            status=discord.Status.dnd,
             activity=discord.Activity(
                 name='f!help',
                 type=discord.ActivityType.listening
             )
         )
         with open("setup/schema.sql") as setup:
-            self.db.execute(setup.read())
+            self.db.execute(setup.read(), many=True)
 #--#
     async def on_message(self, msg):
         ctx = await self.get_context(msg)
