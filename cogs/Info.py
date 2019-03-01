@@ -198,7 +198,7 @@ class Info:
         emb.add_field(name='CPU usage', value=f"{cpu}%")
         emb.add_field(name='Memory usage', value=f"{memory} MiB")
         emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
-        emb.add_field(name='Commands since last boot', value=self.bot.commands_done)
+        emb.add_field(name='Commands since last boot', value=self.bot.commands_used)
         emb.add_field(name='Uptime', value=f'`{d}`days, `{h}` hours, `{m}` minutes, `{s}` seconds'
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         
