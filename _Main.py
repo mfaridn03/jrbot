@@ -12,7 +12,7 @@ token = os.getenv('TOKEN')
 class JrBot(commands.Bot):
     def __init__(self):
         super().__init__(
-            command_prefix=['f!'],
+            command_prefix=['f.', 'ff '],
             case_insensitive=True,
             description=desc,
             reconnect=True,
