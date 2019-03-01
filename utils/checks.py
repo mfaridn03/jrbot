@@ -7,8 +7,8 @@ class NoCharacter(commands.CheckFailure):
 
 def has_char():
     def pred(ctx):
-        res = ctx.bot.db.execute(
-            f'SELECT balance FROM user_balance WHERE userid={ctx.author.id}'
+        res = ctx.bot.db.fetch(
+            f'SELECT balance FROM user_info WHERE userid={ctx.author.id}'
         )
         if res:
             return True
