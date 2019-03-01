@@ -15,8 +15,7 @@ class Sql:
     def __init__(self, database):
         self.database = database
         self.conn = sqlite3.connect(database, timeout=10)
-    
-    cur = self.conn.cursor()
+        self.cur = self.conn.cursor()
     
     def fetch(self, query, many: bool=False):
         if many:
