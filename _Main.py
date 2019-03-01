@@ -64,9 +64,6 @@ class JrBot(commands.Bot):
         self.commands_used += 1
 
     async def on_ready(self):
-        print(f"Logged in as {self.user}\n"
-              f"ID: {self.user.id}\n"
-              f"---------------")
         await self.change_presence(
             status=discord.Status.dnd,
             activity=discord.Activity(
@@ -75,7 +72,13 @@ class JrBot(commands.Bot):
             )
         )
         with open("setup/schema.sql") as setup:
-            self.db.execute(setup.read(), many=True)
+            self.db.execute(
+                setup.read(), many=True
+            )
+        
+        print(f"Logged in as {self.user}\n"
+              f"ID: {self.user.id}\n"
+              f"---------------")
 #--#
     async def on_message(self, msg):
         ctx = await self.get_context(msg)
@@ -86,19 +89,20 @@ class JrBot(commands.Bot):
         if (
                 ctx.channel.id == 534754067998834688 and ctx.author.id != 191036924570501120
         ):
-            if msg.content.lower().startswith('f.verify') or msg.content.lower().startswith('ff verify'):
+            if (
+                msg.content.lower().startswith('f.verify') or
+                msg.content.lower().startswith('ff verify')
+            ):
                 await self.process_commands(msg)
             else:
                 return await msg.delete()
-
         await self.process_commands(msg)
 #--#
     async def process_commands(self, msg):
         ctx = await self.get_context(msg)
-
         if ctx.command is None:
             return
-
+        
         await self.invoke(ctx)
 #--#
     async def on_raw_reaction_add(self, data):
