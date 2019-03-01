@@ -13,7 +13,7 @@ token = os.getenv('TOKEN')
 class JrBot(commands.Bot):
     def __init__(self):
         super().__init__(
-            command_prefix=['f.', 'ff '],
+            command_prefix=['f!'],
             case_insensitive=True,
             description=desc,
             reconnect=True,
@@ -51,7 +51,7 @@ class JrBot(commands.Bot):
         await self.change_presence(
             status=discord.Status.dnd,
             activity=discord.Activity(
-                name='everyone 👀',
+                name='f!help',
                 type=discord.ActivityType.watching
             )
         )
