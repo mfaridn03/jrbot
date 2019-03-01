@@ -46,7 +46,7 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-        self.db = Sql('Data.db')
+        self.db = None
 
     async def start(self):
         for extension in extensions:
@@ -57,10 +57,6 @@ class JrBot(commands.Bot):
                 print(traceback.format_exc())
         print('-----')
         await super().start(token)  # Nice try skids
-    
-    def init_sqlite(self):
-        conn = sqlite3.connect('Data.db', timeout=10)
-        self.db = conn
 
     async def on_command_completion(self, ctx):
         self.commands_used += 1
@@ -76,7 +72,7 @@ class JrBot(commands.Bot):
                 type=discord.ActivityType.listening
             )
         )
-        self.init_sqlite()
+        self.db = Sql('Data.db')
 #--#
     async def on_message(self, msg):
         ctx = await self.get_context(msg)
