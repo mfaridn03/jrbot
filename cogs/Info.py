@@ -11,7 +11,7 @@ dnd_id = 548809987212705802
 idle_id = 548809986982281266
 
 
-class Info:
+class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
