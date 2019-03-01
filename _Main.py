@@ -26,7 +26,7 @@ class Sql:
             res = res[0]
         return res
     
-    def execute(self, query)
+    def execute(self, query):
         self.cur.execute(query)
         self.conn.commit()
 
