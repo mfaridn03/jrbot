@@ -44,7 +44,8 @@ class Economy(commands.Cog):
                 'Cannot find user'
             )
         res = self.bot.db.fetch(
-            'SELECT balance FROM user_balance WHERE userid=?', (ctx.author.id,)
+            ('SELECT balance FROM user_balance WHERE userid=?', (ctx.author.id,)),
+            many=False  # Idk why but placing this here just in case I forgot
         )
         await ctx.send(
             f'`{target}` has **{res}**{moai}'
