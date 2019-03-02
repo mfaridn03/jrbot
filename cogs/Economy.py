@@ -47,7 +47,7 @@ class Economy(commands.Cog):
             'SELECT balance FROM user_balance WHERE userid=?', (ctx.author.id,)
         )
         await ctx.send(
-            f'`{target}`' has **{res}**{moai}
+            f'`{target}` has **{res}**{moai}'
         )
 
 def setup(bot):
