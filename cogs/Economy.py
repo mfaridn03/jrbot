@@ -17,14 +17,12 @@ class Economy(commands.Cog):
         - f.create
         """
         async with ctx.typing():
-            q = f"""
-INSERT INTO user_info (userid) VALUES {ctx.author.id};
-INSERT INTO user_balance (balance) VALUES 100;
-INSERT INTO user_profile (name, multiplier) VALUES ({ctx.author.name}, 1.0);"""
-            self.bot.db.execute(
-                q,
-                many=True
-            )
+            a = f"INSERT INTO user_info (userid) VALUES {ctx.author.id}"
+            b = f"INSERT INTO user_balance (balance) VALUES 100"
+            c = f"INSERT INTO user_profile (name, multiplier) VALUES ({ctx.author.name}, 1.0)"
+            self.bot.db.execute(a)
+            self.bot.db.execute(b)
+            self.bot.db.execute(c)  # Repetition bc something's wrong with executemany()
         await ctx.send('Profile created!')
     
     @commands.command(name='bal', aliases=['balance'])
