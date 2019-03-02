@@ -34,7 +34,7 @@ class Economy(commands.Cog):
         - f.bal Techno#2329
         - f.bal 376911204481892352
         """
-        target = member or ctx.author.id
+        target = member or str(ctx.author)
         try:
             target = await commands.MemberConverter().convert(
                 ctx, target
