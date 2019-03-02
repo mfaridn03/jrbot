@@ -17,10 +17,14 @@ class Economy(commands.Cog):
         - f.create
         """
         async with ctx.typing():
-            q = f"INSERT INTO user_info (userid) VALUES {ctx.author.id};" \
-            f"INSERT INTO user_balance (balance) VALUES 100;" \
-            f"INSERT INTO user_profile (name, multiplier) VALUES ({ctx.author.name}, 1.0);"
-            self.bot.db.execute(q, many=True)
+            q = f"""
+INSERT INTO user_info (userid) VALUES {ctx.author.id};
+INSERT INTO user_balance (balance) VALUES 100;
+INSERT INTO user_profile (name, multiplier) VALUES ({ctx.author.name}, 1.0);"""
+            self.bot.db.execute(
+                q,
+                many=True
+            )
         await ctx.send('Profile created!')
     
     @commands.command(name='bal', aliases=['balance'])
@@ -44,7 +48,7 @@ class Economy(commands.Cog):
                 'Cannot find user'
             )
         res = self.bot.db.fetch(
-            ('SELECT balance FROM user_balance WHERE userid=?', (ctx.author.id,)),
+            f'SELECT balance FROM user_balance WHERE userid={target.id}',
             many=False  # Idk why but placing this here just in case I forgot
         )
         await ctx.send(
