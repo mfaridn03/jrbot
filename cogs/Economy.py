@@ -39,7 +39,7 @@ class Economy(commands.Cog):
             target = await commands.MemberConverter().convert(
                 ctx, target
             )
-        except commands.NotFound:
+        except commands.BadArgument:
             return await ctx.send(
                 'Cannot find user'
             )
