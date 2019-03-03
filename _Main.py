@@ -28,9 +28,10 @@ class Sql:
     def execute(self, query, many: bool=False):
         if many:
             self.cur.executescript(query)
+            self.conn.commit()
         else:
             self.cur.execute(query)
-        self.conn.commit()
+            self.conn.commit()
 
 
 class JrBot(commands.Bot):
