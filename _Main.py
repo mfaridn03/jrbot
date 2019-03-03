@@ -1,9 +1,10 @@
-from discord.ext import commands
-import discord
 import os
 import traceback
 import datetime
 import sqlite3
+
+from discord.ext import commands
+import discord
 
 desc = "Farid's home-made bot for his personal server"
 extensions = ['cogs.Fun', 'cogs.Info', 'jishaku', 'cogs.Economy']
@@ -14,26 +15,22 @@ token = os.getenv('TOKEN')
 class Sql:
     def __init__(self, database):
         self.database = database
-        self.conn = sqlite3.connect(database)
+        self.conn = sqlite3.connect(database, isolation_level=None)
         self.cur = self.conn.cursor()
     
     def fetch(self, query, many: bool=False):
         if many:
             res = self.cur.execute(query).fetchall()
-            self.conn.commit()  # Just in case (temp)
         else:
             res = self.cur.execute(query).fetchone()
-            self.conn.commit()  # Just in case (temp)
             res = res[0]
         return res
     
     def execute(self, query, many: bool=False):
         if many:
             self.cur.executescript(query)
-            self.conn.commit()
         else:
             self.cur.execute(query)
-            self.conn.commit()
 
 
 class JrBot(commands.Bot):
