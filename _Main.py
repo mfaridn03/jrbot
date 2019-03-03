@@ -1,7 +1,7 @@
 import os
 import traceback
 import datetime
-import sqlite3
+import asyncpg
 
 from discord.ext import commands
 import discord
@@ -10,27 +10,6 @@ desc = "Farid's home-made bot for his personal server"
 extensions = ['cogs.Fun', 'cogs.Info', 'jishaku', 'cogs.Economy']
 
 token = os.getenv('TOKEN')
-
-
-class Sql:
-    def __init__(self, database):
-        self.database = database
-        self.conn = sqlite3.connect(database, isolation_level=None)
-        self.cur = self.conn.cursor()
-    
-    def fetch(self, query, many: bool=False):
-        if many:
-            res = self.cur.execute(query).fetchall()
-        else:
-            res = self.cur.execute(query).fetchone()
-            res = res[0]
-        return res
-    
-    def execute(self, query, many: bool=False):
-        if many:
-            self.cur.executescript(query)
-        else:
-            self.cur.execute(query)
 
 
 class JrBot(commands.Bot):
@@ -71,12 +50,6 @@ class JrBot(commands.Bot):
                 type=discord.ActivityType.listening
             )
         )
-        self.db = Sql('Data.db')
-        with open("setup/schema.sql") as setup:
-            self.db.execute(
-                setup.read(), many=True
-            )
-        
         print(f"Logged in as {self.user}\n"
               f"ID: {self.user.id}\n"
               f"---------------")
