@@ -19,7 +19,7 @@ class Economy(commands.Cog):
         async with ctx.typing():
             a = f"INSERT INTO user_info (userid) VALUES ({ctx.author.id});"
             b = f"INSERT INTO user_balance (balance) VALUES (100);"
-            c = f"INSERT INTO user_profile (name, multiplier) VALUES ({ctx.author.name}, 1.0);"
+            c = f"INSERT INTO user_profile (name, multiplier) VALUES ('{ctx.author.name}', 1.0);"
             self.bot.db.execute(a)
             self.bot.db.execute(b)
             self.bot.db.execute(c)  # Repetition bc something's wrong with executemany()
