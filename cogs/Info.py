@@ -200,7 +200,7 @@ class Info(commands.Cog):
         emb.add_field(name='Memory usage', value=f"{memory} MiB")
         emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
         emb.add_field(name='Commands since last boot', value=self.bot.commands_used)
-        emb.add_field(name='Uptime', value=f'`{d}`days, `{h}` hours, `{m}` minutes, `{s}` seconds')
+        emb.add_field(name='Uptime', value=f'`{d}` days, `{h}` hours, `{m}` minutes, `{s}` seconds')
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
         
         await ctx.send(embed=emb)
@@ -221,7 +221,7 @@ class Info(commands.Cog):
             "Pong! :ping_pong:\n"
         )
         await m.edit(
-            f"Pong! :ping_pong:\n{msg}\nEdit: `{round((time.perf_counter() - sent) * 1000)}`ms"
+            content=f"Pong! :ping_pong:\n{msg}\nEdit: `{round((time.perf_counter() - sent) * 1000)}`ms"
         )
         
 
