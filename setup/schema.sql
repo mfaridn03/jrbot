@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS user_balance (
 );
 
 CREATE TABLE IF NOT EXISTS user_profile (
-    userid NUMERIC NOT NULL
+    userid NUMERIC NOT NULL,
     name TEXT UNIQUE NOT NULL,
     multiplier NUMERIC NOT NULL DEFAULT 0
 );
