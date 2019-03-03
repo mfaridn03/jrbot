@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS user_info (
 );
 
 CREATE TABLE IF NOT EXISTS user_balance (
-    userid BIGINTREFERENCES user_info(userid) ON DELETE CASCADE,
+    userid BIGINT REFERENCES user_info(userid) ON DELETE CASCADE,
     balance NUMERIC NOT NULL DEFAULT 0
 );
 
