@@ -217,8 +217,14 @@ class Info(commands.Cog):
         msg = f"{latency}\n{typing}"
         
         sent = time.perf_counter()
-        m = await ctx.send("Pong! :ping_pong:")
-        await m.edit(f"{msg}\nEdit: `{round((time.perf_counter-sent) * 1000)}`ms")
+        m = await ctx.send(
+            "Pong! :ping_pong:\n"
+        )
+        await m.edit(
+            f"Pong! :ping_pong:\n" \
+            f"{msg}\n" \
+            f"Edit: `{round((time.perf_counter() - sent) * 1000)}`ms"
+        )
         
 
 def setup(bot):
