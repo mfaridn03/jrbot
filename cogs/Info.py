@@ -212,8 +212,8 @@ class Info(commands.Cog):
         await ctx.trigger_typing()
         after = time.perf_counter()
         
-        typing = f"`Typing: {round((after-before) * 1000)}`ms"
-        latency = f"`Websocket: {round(self.bot.latency * 1000)}`ms"
+        typing = f"**Typing**: `{round((after-before) * 1000)}`ms"
+        latency = f"**Websocket**: `{round(self.bot.latency * 1000)}`ms"
         msg = f"{latency}\n{typing}"
         
         sent = time.perf_counter()
@@ -221,7 +221,7 @@ class Info(commands.Cog):
             "Pong! :ping_pong:\n"
         )
         await m.edit(
-            content=f"Pong! :ping_pong:\n{msg}\nEdit: `{round((time.perf_counter() - sent) * 1000)}`ms"
+            content=f"Pong! :ping_pong:\n{msg}\n**Edit**: `{round((time.perf_counter() - sent) * 1000)}`ms"
         )
         
 
