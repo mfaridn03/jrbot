@@ -14,14 +14,16 @@ token = os.getenv('TOKEN')
 class Sql:
     def __init__(self, database):
         self.database = database
-        self.conn = sqlite3.connect(database, timeout=10)
+        self.conn = sqlite3.connect(database)
         self.cur = self.conn.cursor()
     
     def fetch(self, query, many: bool=False):
         if many:
             res = self.cur.execute(query).fetchall()
+            self.conn.commit()  # Just in case (temp)
         else:
             res = self.cur.execute(query).fetchone()
+            self.conn.commit()  # Just in case (temp)
             res = res[0]
         return res
     
@@ -49,7 +51,7 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-        self.db = Sql('Data.db')
+        self.db = None
         
     async def start(self):
         for extension in extensions:
@@ -72,6 +74,7 @@ class JrBot(commands.Bot):
                 type=discord.ActivityType.listening
             )
         )
+        self.db = Sql('Data.db')
         with open("setup/schema.sql") as setup:
             self.db.execute(
                 setup.read(), many=True
