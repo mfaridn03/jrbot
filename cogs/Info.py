@@ -221,9 +221,7 @@ class Info(commands.Cog):
             "Pong! :ping_pong:\n"
         )
         await m.edit(
-            f"Pong! :ping_pong:\n" \
-            f"{msg}\n" \
-            f"Edit: `{round((time.perf_counter() - sent) * 1000)}`ms"
+            f"Pong! :ping_pong:\n{msg}\nEdit: `{round((time.perf_counter() - sent) * 1000)}`ms"
         )
         
 
