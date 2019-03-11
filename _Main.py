@@ -9,15 +9,17 @@ desc = "Farid's home-made bot for his personal server"
 extensions = ['cogs.Fun', 'cogs.Info', 'jishaku']
 
 token = os.getenv('TOKEN')
+p = ['f.', 'ff ', 'f!']
 
 
-class JrBot(commands.Bot):
+class JrBot(commands.AutoShardedBot):
     def __init__(self):
         super().__init__(
-            command_prefix=['f!'],
+            command_prefix=commands.when_mentioned_or(*p),
             case_insensitive=True,
             description=desc,
             reconnect=True,
+            fetch_offline_members=True,
             status=discord.Status.idle,
             activity=discord.Activity(
                 name='myself booting...',
