@@ -53,5 +53,5 @@ class Economy(commands.Cog):
         )
 
 def setup(bot):
-    bot.add_cog(Economy(bot))
+    bot.add_cog(Economy(bot))  # Economy extension not in extensions list. This won't be loaded on purpose
     
