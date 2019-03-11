@@ -1,7 +1,6 @@
 import os
 import traceback
 import datetime
-import asyncpg
 
 from discord.ext import commands
 import discord
