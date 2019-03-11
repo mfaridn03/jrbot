@@ -2,12 +2,11 @@ import datetime
 import asyncio
 import json
 import os
+import urllib
 
 import requests
 import discord
 from discord.ext import commands
-import urllib.request
-import urllib
 from bs4 import BeautifulSoup
 from newsapi import NewsApiClient
 
