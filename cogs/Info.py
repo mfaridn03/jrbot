@@ -127,7 +127,7 @@ class Info(commands.Cog):
         dnders = len([a for a in ctx.guild.members if str(a.status) == 'dnd'])
         idlers = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
         
-        member_status = f"\n{online} {onliners}\n{offline} {offliners}\n{dnd} {dnders}\n{idle} {idlers}"
+        member_status = f"\n{online}{onliners} | {offline}{offliners} | {dnd}{dnders} | {idle}{idlers}"
         members += member_status
 
         emb = discord.Embed(title='Server info',
