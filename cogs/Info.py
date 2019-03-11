@@ -90,7 +90,7 @@ class Info(commands.Cog):
 
         await ctx.send(embed=emb)
 
-    @commands.command(name='serverinfo')
+    @commands.command(name='serverinfo', aliases=['server'])
     async def serverinfo(self, ctx):
         """
         Retrieves server info
@@ -127,7 +127,7 @@ class Info(commands.Cog):
         dnders = len([a for a in ctx.guild.members if str(a.status) == 'dnd'])
         idlers = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
         
-        member_status = f"\n{online}{onliners} | {offline}{offliners} | {dnd}{dnders} | {idle}{idlers}"
+        member_status = f"\n{online}{onliners}  {offline}{offliners}  {dnd}{dnders}  {idle}{idlers}"
         members += member_status
 
         emb = discord.Embed(title='Server info',
