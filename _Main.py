@@ -71,6 +71,9 @@ class JrBot(commands.AutoShardedBot):
                 await self.process_commands(msg)
             else:
                 return await msg.delete()
+        if msg.content == '<@550602719325585408>':
+            return await ctx.send('Hello there! My prefixes are: \n`f!`\n`f.`\n`ff `\nor when mentioned")
+                                  
         await self.process_commands(msg)
 #--#
     async def process_commands(self, msg):
