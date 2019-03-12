@@ -42,7 +42,13 @@ class Fun(commands.Cog):
                     return await ctx.send(f'No search results found for "**{word}**"')
 
                 definition = req_json['list'][index]['definition']
+                if len(definition) > 1969:
+                    definition = f"{definition[:1969]}..."
+                    
                 example = req_json['list'][index]['example']
+                if len(example) > 1969:
+                    example = f"{example[:1969]}..."
+                    
                 thumbs_up = req_json['list'][index]['thumbs_up']
                 thumbs_down = req_json['list'][index]['thumbs_down']
 
@@ -140,16 +146,16 @@ class Fun(commands.Cog):
                 score = f"{req_json['result'][index]['score']}/10"
                 image_url = req_json['result'][index]['image_url']
 
-                emb = discord.Embed(title='Anime search', description=direct_link, colour=discord.Colour.dark_orange(),
-                                    timestamp=datetime.datetime.utcnow())
-                emb.set_image(url=image_url)
-                emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+            emb = discord.Embed(title='Anime search', description=direct_link, colour=discord.Colour.dark_orange(),
+                                timestamp=datetime.datetime.utcnow())
+            emb.set_image(url=image_url)
+            emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
 
-                emb.add_field(name='Title', value=title, inline=False)
-                emb.add_field(name='Description', value=description, inline=False)
-                emb.add_field(name='Type', value=mov_type, inline=False)
-                emb.add_field(name='Episodes', value=episodes, inline=False)
-                emb.add_field(name='Score', value=score, inline=False)
+            emb.add_field(name='Title', value=title, inline=False)
+            emb.add_field(name='Description', value=description, inline=False)
+            emb.add_field(name='Type', value=mov_type, inline=False)
+            emb.add_field(name='Episodes', value=episodes, inline=False)
+            emb.add_field(name='Score', value=score, inline=False)
             em = await ctx.send(embed=emb)
             await em.add_reaction('◀')
             await em.add_reaction('▶')
@@ -187,17 +193,17 @@ class Fun(commands.Cog):
                         score = f"{an['result'][index]['score']}/10"
                         image_url = an['result'][index]['image_url']
 
-                        emb = discord.Embed(title='Anime search', description=direct_link,
-                                            colour=discord.Colour.dark_orange(),
-                                            timestamp=datetime.datetime.utcnow())
-                        emb.set_image(url=image_url)
-                        emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+                    emb = discord.Embed(title='Anime search', description=direct_link,
+                                        colour=discord.Colour.dark_orange(),
+                                        timestamp=datetime.datetime.utcnow())
+                    emb.set_image(url=image_url)
+                    emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
 
-                        emb.add_field(name='Title', value=title, inline=False)
-                        emb.add_field(name='Description', value=description, inline=False)
-                        emb.add_field(name='Type', value=mov_type, inline=False)
-                        emb.add_field(name='Episodes', value=episodes, inline=False)
-                        emb.add_field(name='Score', value=score, inline=False)
+                    emb.add_field(name='Title', value=title, inline=False)
+                    emb.add_field(name='Description', value=description, inline=False)
+                    emb.add_field(name='Type', value=mov_type, inline=False)
+                    emb.add_field(name='Episodes', value=episodes, inline=False)
+                    emb.add_field(name='Score', value=score, inline=False)
                     await em.edit(embed=emb)
                     asyncio.sleep(20)
         except KeyError:
