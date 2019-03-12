@@ -68,7 +68,7 @@ class Info(commands.Cog):
             roles = '\n'.join([role.mention for role in m.roles[::-1][:5]])
 
         joined = str(m.joined_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
-        created = str(m.created_at.strftime('%d-%m-%Y\n%A %I:%M:%S %p'))
+        created = str(m.created_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
 
         emb = discord.Embed(title=f'Info on {username}',
                             description=f'**Display name:** {display_name}',
