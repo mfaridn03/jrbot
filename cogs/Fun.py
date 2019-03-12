@@ -34,7 +34,7 @@ class Fun(commands.Cog):
             async with ctx.typing():
                 index = 0
                 session = requests.session()
-                link = f'http://api.urbandictionary.com/v0/define?term={word}'
+                link = f'http://api.urbandictionary.com/v0/define?term={urllib.parse.quote(word)}'
                 req_link = session.get(link).text
                 req_json = json.loads(req_link)
 
