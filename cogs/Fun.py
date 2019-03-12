@@ -42,12 +42,12 @@ class Fun(commands.Cog):
                     return await ctx.send(f'No search results found for "**{word}**"')
 
                 definition = req_json['list'][index]['definition']
-                if len(definition) > 1969:
-                    definition = f"{definition[:1969]}..."
+                if len(definition) > 2000:
+                    definition = f"{definition[:2000]}..."
                     
                 example = req_json['list'][index]['example']
-                if len(example) > 1969:
-                    example = f"{example[:1969]}..."
+                if len(example) > 1000:
+                    example = f"{example[:1000]}..."
                     
                 thumbs_up = req_json['list'][index]['thumbs_up']
                 thumbs_down = req_json['list'][index]['thumbs_down']
