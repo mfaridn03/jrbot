@@ -67,8 +67,8 @@ class Info(commands.Cog):
             role_desc = "Top 5 roles (highest to lowest, because too many roles)"
             roles = '\n'.join([role.mention for role in m.roles[::-1][:5]])
 
-        joined = str(m.joined_at.strftime('%d-%m-%Y, %A %I:%M:%S%p'))
-        created = str(m.created_at.strftime('%d-%m-%Y, %A %I:%M:%S%p'))
+        joined = str(m.joined_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
+        created = str(m.created_at.strftime('%d-%m-%Y\n%A %I:%M:%S %p'))
 
         emb = discord.Embed(title=f'Info on {username}',
                             description=f'**Display name:** {display_name}',
@@ -109,7 +109,7 @@ class Info(commands.Cog):
         members = f"Total: {len(guild.members)}"
         members += f"\nHumans: {len([h for h in guild.members if not h.bot])}"
         members += f"\nBots: {len([b for b in guild.members if b.bot])}"
-        created_at = str(guild.created_at.strftime('%d-%m-%Y, %A %I:%M:%S%p'))
+        created_at = str(guild.created_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
         roles = f"{len(guild.roles)}\nTop role: {guild.roles[-1].mention}"
         icon = guild.icon_url
         verif = guild.verification_level
