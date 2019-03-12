@@ -77,7 +77,7 @@ class Info(commands.Cog):
         emb.add_field(name='User ID', value=str(uid))
         emb.add_field(name='Bot user?', value=is_bot)
         emb.add_field(name=role_desc, value=roles)
-        emb.add_field(name=f'Joined {ctx.guild.name} at', value=joined)
+        emb.add_field(name=f'Joined this server at', value=joined)
         emb.add_field(name='Created at', value=created)
         emb.set_thumbnail(url=avatar)
         emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
