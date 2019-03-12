@@ -22,7 +22,7 @@ class Fun(commands.Cog):
 
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command(name='urban', aliases=['ud'])
-    async def urban(self, ctx, *, word):
+    async def urban(self, ctx, *, word: str):
         """
         Fetches urban dictionary definitions using the urban dictionary API.
 
@@ -52,11 +52,12 @@ class Fun(commands.Cog):
                 thumbs_up = req_json['list'][index]['thumbs_up']
                 thumbs_down = req_json['list'][index]['thumbs_down']
 
-                emb = discord.Embed(title=f'Definition for: {word}',
+                emb = discord.Embed(title='Definition',
                                     description=definition.replace('[', '').replace(']', ''),
                                     colour=discord.Colour.dark_green(),
                                     timestamp=datetime.datetime.utcnow())
                 emb.add_field(name='Example', value=example.replace('[', '').replace(']', ''), inline=False)
+                emb.set_author(name=word, url=link, icon_url='https://i.imgur.com/tWphiz7.jpg')
                 emb.set_footer(text=f'👍 {thumbs_up} - 👎 {thumbs_down}', icon_url=ctx.author.avatar_url)
             await ctx.send(embed=emb)
         except KeyError:
