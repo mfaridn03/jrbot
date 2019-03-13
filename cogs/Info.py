@@ -278,7 +278,7 @@ class Info(commands.Cog):
         members = len(r.members)
         
         emb = discord.Embed(
-            title=str(r),
+            title='Role Information',
             colour=r.colour,
             description=f'{r.mention}\n**ID**: {r.id}\n**Permissions**:\n{perms.rstrip()}'
         )
