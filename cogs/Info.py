@@ -248,13 +248,13 @@ class Info(commands.Cog):
             content=f"Pong! :ping_pong:\n{msg}\n**Edit**: `{round((time.perf_counter() - sent) * 1000)}`ms"
         )
 #--#
-"""
+
     @commands.command(name='roleinfo')
     async def roleinfo(self, ctx, role=None):
-        \"""
+        """
         Fetch info about a role
         <role> can be its name, id or mention
-        \"""
+        """
         if not role:
             return await ctx.send('No role provided')
         try:
@@ -262,16 +262,51 @@ class Info(commands.Cog):
         except commands.BadArgument:
             return await ctx.send(f'Role `{role}` not found')
         
-        perm = r.permissions
         perms = ''
+        if r.permissions.administrator:
+            perms = 'Administrator'
+        else:
+            for p in r.permissions:
+                x, y = p
+                if y:
+                    perms += f'{x}, '
         
+        perm_value = str(r.permissions.value)
+        colour = str(r.colour)
+        integrated = r.managed
+        created_at = r.created_at.strftime('%d-%m-%Y\n%I:%M:%S %p')
+        members = len(r.members)
         
         emb = discord.Embed(
             title=str(r),
             colour=r.colour,
-            description=f'**ID**: {r.id}\n**Permissions**:\n{perms}'
+            description=f'{r.mention}\n**ID**: {r.id}\n**Permissions**:\n{perms}'
         )
-        """
+        emb.add_field(
+            name='Value',
+            value=perm_value
+        )
+        emb.add_field(
+            name='Colour',
+            value=colour
+        )
+        emb.add_field(
+            name='Integrated/managed?',
+            value=integrated
+        )
+        emb.add_field(
+            name='Created at',
+            value=created_at
+        )
+        emb.add_field(
+            name='Members with this role',
+            value=members
+        )
+        emb.set_footer(
+            text=ctx.author,
+            icon_url=ctx.author.avatar_url
+        )
+        await ctx.send(embed=emb)
         
 
 def setup(bot):
