@@ -250,7 +250,7 @@ class Info(commands.Cog):
 #--#
 
     @commands.command(name='roleinfo')
-    async def roleinfo(self, ctx, role=None):
+    async def roleinfo(self, ctx, *,  role=None):
         """
         Fetch info about a role
         <role> can be its name, id or mention
@@ -280,7 +280,7 @@ class Info(commands.Cog):
         emb = discord.Embed(
             title=str(r),
             colour=r.colour,
-            description=f'{r.mention}\n**ID**: {r.id}\n**Permissions**:\n{perms}'
+            description=f'{r.mention}\n**ID**: {r.id}\n**Permissions**:\n{perms.rstrip()}'
         )
         emb.add_field(
             name='Value',
