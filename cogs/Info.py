@@ -15,6 +15,10 @@ idle_id = 548809986982281266
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.online = self.bot.get_emoji(online_id)
+        self.offline = self.bot.get_emoji(offline_id)
+        self.dnd = self.bot.get_emoji(dnd_id)
+        self.idle = self.bot.get_emoji(idle_id)
     
     @commands.command(name='invite')
     async def invite(self, ctx):
@@ -117,17 +121,12 @@ class Info(commands.Cog):
         content_filter = guild.explicit_content_filter
         internals = f"Verification level: {verif}\nVoice region: {vc_region}\nContent filter: {content_filter}"
         
-        online = self.bot.get_emoji(online_id)
-        offline = self.bot.get_emoji(offline_id)
-        dnd = self.bot.get_emoji(dnd_id)
-        idle = self.bot.get_emoji(idle_id)
-        
         onliners = len([a for a in ctx.guild.members if str(a.status) == 'online'])
         offliners = len([a for a in ctx.guild.members if str(a.status) == 'offline'])
         dnders = len([a for a in ctx.guild.members if str(a.status) == 'dnd'])
         idlers = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
         
-        member_status = f"\n{online}{onliners}  {offline}{offliners}  {dnd}{dnders}  {idle}{idlers}"
+        member_status = f"\n{self.online}{onliners}  {self.offline}{offliners}  {self.dnd}{dnders}  {self.idle}{idlers}"
         members += member_status
 
         emb = discord.Embed(title='Server info',
@@ -158,13 +157,11 @@ class Info(commands.Cog):
         - f.avatar 235148962103951360
         - f.avatar @Farid#0001
         """
-        if member:
-            try:
-                m = await commands.MemberConverter().convert(ctx, member)
-            except commands.BadArgument:
-                return await ctx.send(f'Member {member} not found')
-        else:
-            m = ctx.author
+        target = member or ctx.author.id
+        try:
+            m = await commands.MemberConverter().convert(ctx, targ)
+        except commands.BadArgument:
+            return await ctx.send(f'Member {member} not found')
 
         desc = f'[Link]({m.avatar_url})'
         emb = discord.Embed(title=f"{str(m)}'s avatar",
@@ -194,16 +191,42 @@ class Info(commands.Cog):
         
         owner = discord.utils.get(self.bot.users, id=191036924570501120)
         
-        emb = discord.Embed(title='Bot information', colour=ctx.me.colour, timestamp=datetime.datetime.utcnow())
-        emb.add_field(name='Created by', value=f'{owner.mention} ({owner})')
-        emb.add_field(name='Library', value=f"{py}\nVersion: {ver}")
-        emb.add_field(name='CPU usage', value=f"{cpu}%")
-        emb.add_field(name='Memory usage', value=f"{memory} MiB")
-        emb.add_field(name='Stats', value=f"Servers: {servers}\nMembers: {members}")
-        emb.add_field(name='Commands since last boot', value=self.bot.commands_used)
-        emb.add_field(name='Uptime', value=f'`{d}` days, `{h}` hours, `{m}` minutes, `{s}` seconds')
-        emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
-        
+        emb = discord.Embed(
+            title='Bot information',
+            colour=ctx.me.colour,
+            timestamp=datetime.datetime.utcnow()
+        )
+        emb.add_field(
+            name='Created by',
+            value=f'{owner.mention} ({owner})'
+        )
+        emb.add_field(
+            name='Library',
+            value=f"{py}\nVersion: {ver}"
+        )
+        emb.add_field(
+            name='CPU usage',
+            value=f"{cpu}%"
+        )
+        emb.add_field(
+            name='Memory usage',
+            value=f"{memory} MiB"
+        )
+        emb.add_field(
+            name='Stats',
+            value=f"Servers: {servers}\nMembers: {members}"
+        )
+        emb.add_field(
+            name='Commands since last boot', value=self.bot.commands_used
+        )
+        emb.add_field(
+            name='Uptime',
+            value=f'`{d}` days, `{h}` hours, `{m}` minutes, `{s}` seconds'
+        )
+        emb.set_footer(
+            text=ctx.author,
+            icon_url=ctx.author.avatar_url
+        )
         await ctx.send(embed=emb)
 #--#
     @commands.command(name='ping', aliases=['pong'])
@@ -224,6 +247,31 @@ class Info(commands.Cog):
         await m.edit(
             content=f"Pong! :ping_pong:\n{msg}\n**Edit**: `{round((time.perf_counter() - sent) * 1000)}`ms"
         )
+#--#
+"""
+    @commands.command(name='roleinfo')
+    async def roleinfo(self, ctx, role=None):
+        \"""
+        Fetch info about a role
+        <role> can be its name, id or mention
+        \"""
+        if not role:
+            return await ctx.send('No role provided')
+        try:
+            r = await commands.RoleConverter().convert(ctx, role)
+        except commands.BadArgument:
+            return await ctx.send(f'Role `{role}` not found')
+        
+        perm = r.permissions
+        perms = ''
+        
+        
+        emb = discord.Embed(
+            title=str(r),
+            colour=r.colour,
+            description=f'**ID**: {r.id}\n**Permissions**:\n{perms}'
+        )
+        """
         
 
 def setup(bot):
