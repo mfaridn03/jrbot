@@ -280,7 +280,7 @@ class Info(commands.Cog):
         emb = discord.Embed(
             title='Role Information',
             colour=r.colour,
-            description=f'{r.mention}\n**ID**: {r.id}\n**Permissions**:\n{perms.rstrip()}'
+            description=f'{r.mention}\n**ID**: {r.id}\n**Permissions**:\n{perms.rstrip(",")}'
         )
         emb.add_field(
             name='Value',
