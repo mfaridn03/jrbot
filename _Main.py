@@ -1,6 +1,6 @@
+import datetime
 import os
 import traceback
-import datetime
 
 from discord.ext import commands
 import discord
@@ -29,6 +29,7 @@ class JrBot(commands.AutoShardedBot):
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
         self.db = None
+        self.beta_id = 550602719325585408
         
     async def start(self):
         for extension in extensions:
@@ -62,7 +63,8 @@ class JrBot(commands.AutoShardedBot):
             return
 
         if (
-                ctx.channel.id == 534754067998834688 and ctx.author.id != 191036924570501120
+            ctx.channel.id == 534754067998834688 and
+            ctx.author.id != 191036924570501120
         ):
             if (
                 msg.content.lower().startswith('f.verify') or
@@ -71,10 +73,17 @@ class JrBot(commands.AutoShardedBot):
                 await self.process_commands(msg)
             else:
                 return await msg.delete()
-        if msg.content == '<@550602719325585408>':
-            return await ctx.send('Hello there! My prefixes are: \n`f!`\n`f.`\n`ff `\nor when mentioned')
-                                  
-        await self.process_commands(msg)
+        if msg.content == '<@550602719325585408>' and self.user.id == 550602719325585408:
+            return await ctx.send(
+                'Hello there! My prefix is: `f!`\nor when mentioned'
+            )
+        
+        if msg.content == '<@537570246626902016>' and self.user.id == 537570246626902016:
+            return await ctx.send(
+                'Hello there! My prefix is: `f.`\n`ff `\nor when mentioned'
+            )
+        if msg.content.startswith('f!') and self.user.id == 550602719325585408:
+            await self.process_commands(msg)
 #--#
     async def process_commands(self, msg):
         ctx = await self.get_context(msg)
