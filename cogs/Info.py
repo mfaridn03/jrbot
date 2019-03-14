@@ -20,8 +20,10 @@ class Info(commands.Cog):
     async def invite(self, ctx):
         """Invite me!"""
         invite_link = "https://discordapp.com/api/oauth2/authorize?client_id=537570246626902016&permissions=470154305&scope=bot"
-        emb = discord.Embed(title=discord.Embed.Empty,
-                            description=invite_link)
+        emb = discord.Embed(
+            title=discord.Embed.Empty,
+            description=invite_link
+        )
         emb.set_author(name='Invite me!')
         emb.set_thumbnail(url=ctx.me.avatar_url)
         await ctx.send(embed=emb)
@@ -70,17 +72,37 @@ class Info(commands.Cog):
         joined = str(m.joined_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
         created = str(m.created_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
 
-        emb = discord.Embed(title=f'Info on {username}',
-                            description=f'**Display name:** {display_name}',
-                            colour=col,
-                            timestamp=datetime.datetime.utcnow())
-        emb.add_field(name='User ID', value=str(uid))
-        emb.add_field(name='Bot user?', value=is_bot)
-        emb.add_field(name=role_desc, value=roles)
-        emb.add_field(name=f'Joined this server at', value=joined)
-        emb.add_field(name='Created at', value=created)
+        emb = discord.Embed(
+            title=f'Info on {username}',
+            description=f'**Display name:** {display_name}',
+            colour=col,
+            timestamp=datetime.datetime.utcnow()
+        )
+        emb.add_field(
+            name='User ID',
+            value=str(uid)
+        )
+        emb.add_field(
+            name='Bot user?',
+            value=is_bot
+        )
+        emb.add_field(
+            name=role_desc,
+            value=roles
+        )
+        emb.add_field(
+            name=f'Joined this server at',
+            value=joined
+        )
+        emb.add_field(
+            name='Created at',
+            value=created
+        )
         emb.set_thumbnail(url=avatar)
-        emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+        emb.set_footer(
+            text=ctx.author,
+            icon_url=ctx.author.avatar_url
+        )
         
         if m.id == 537570246626902016:
             emb.set_author(name="Ayy lmao. It's me")
@@ -127,21 +149,47 @@ class Info(commands.Cog):
         dnders = len([a for a in ctx.guild.members if str(a.status) == 'dnd'])
         idlers = len([a for a in ctx.guild.members if str(a.status) == 'idle'])
         
-        member_status = f"\n{self.online}{onliners}  {self.offline}{offliners}  {self.dnd}{dnders}  {self.idle}{idlers}"
+        member_status = f"\n{online}{onliners}  {offline}{offliners}  {dnd}{dnders}  {idle}{idlers}"
         members += member_status
 
-        emb = discord.Embed(title='Server info',
-                            description=f'**Name:** {name}\n**ID**: {guild.id}',
-                            colour=discord.Colour.dark_teal(),
-                            timestamp=datetime.datetime.utcnow())
-        emb.add_field(name='Owner', value=owner)
-        emb.add_field(name='Created at', value=created_at)
-        emb.add_field(name='Internals', value=internals)
-        emb.add_field(name='AFK Channel', value=afk)
-        emb.add_field(name='Channels', value=channels)
-        emb.add_field(name='Members', value=members)
-        emb.add_field(name='Roles', value=roles)
-        emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+        emb = discord.Embed(
+            title='Server info',
+            description=f'**Name:** {name}\n**ID**: {guild.id}',
+            colour=discord.Colour.dark_teal(),
+            timestamp=datetime.datetime.utcnow()
+        )
+        emb.add_field(
+            name='Owner',
+            value=owner
+        )
+        emb.add_field(
+            name='Created at',
+            value=created_at
+        )
+        emb.add_field(
+            name='Internals',
+            value=internals
+        )
+        emb.add_field(
+            name='AFK Channel',
+            value=afk
+        )
+        emb.add_field(
+            name='Channels',
+            value=channels
+        )
+        emb.add_field(
+            name='Members',
+            value=members
+        )
+        emb.add_field(
+            name='Roles',
+            value=roles
+        )
+        emb.set_footer(
+            text=ctx.author,
+            icon_url=ctx.author.avatar_url
+        )
         if 'icon' in icon:
             emb.set_thumbnail(url=icon)
 
@@ -165,9 +213,11 @@ class Info(commands.Cog):
             return await ctx.send(f'Member {member} not found')
 
         desc = f'[Link]({m.avatar_url})'
-        emb = discord.Embed(title=f"{str(m)}'s avatar",
-                            description=desc,
-                            colour=m.colour)
+        emb = discord.Embed(
+            title=f"{str(m)}'s avatar",
+            description=desc,
+            colour=m.colour
+        )
         emb.set_image(url=m.avatar_url)
         await ctx.send(embed=emb)
     
