@@ -19,7 +19,7 @@ class Info(commands.Cog):
     @commands.command(name='invite')
     async def invite(self, ctx):
         """Invite me!"""
-        invite_link = "https://discordapp.com/api/oauth2/authorize?client_id=537570246626902016&permissions=470154305&scope=bot"
+        invite_link = f"https://discordapp.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions=470154305&scope=bot"
         emb = discord.Embed(
             title=discord.Embed.Empty,
             description=invite_link
