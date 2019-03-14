@@ -196,7 +196,7 @@ class Info(commands.Cog):
         await ctx.send(embed=emb)
 
     @commands.command(name='avatar')
-    async def avatar(self, ctx, member=None):
+    async def avatar(self, ctx, target=None):
         """
         Get the avatar of yourself or a member
 
@@ -206,11 +206,13 @@ class Info(commands.Cog):
         - f.avatar 235148962103951360
         - f.avatar @Farid#0001
         """
-        target = member or ctx.author.id
-        try:
-            m = await commands.MemberConverter().convert(ctx, target)
-        except commands.BadArgument:
-            return await ctx.send(f'Member {member} not found')
+        if target:
+            try:
+                m = await commands.MemberConverter().convert(ctx, target)
+            except commands.BadArgument:
+                return await ctx.send(f'Member {member} not found')
+        else:
+            m = ctx.author
 
         desc = f'[Link]({m.avatar_url})'
         emb = discord.Embed(
