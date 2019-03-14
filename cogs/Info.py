@@ -15,10 +15,11 @@ idle_id = 548809986982281266
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.online = self.bot.get_emoji(online_id)
-        self.offline = self.bot.get_emoji(offline_id)
-        self.dnd = self.bot.get_emoji(dnd_id)
-        self.idle = self.bot.get_emoji(idle_id)
+
+    online = self.bot.get_emoji(online_id)
+    offline = self.bot.get_emoji(offline_id)
+    dnd = self.bot.get_emoji(dnd_id)
+    idle = self.bot.get_emoji(idle_id)
     
     @commands.command(name='invite')
     async def invite(self, ctx):
