@@ -104,7 +104,7 @@ class Info(commands.Cog):
             icon_url=ctx.author.avatar_url
         )
         
-        if m.id == 537570246626902016:
+        if m.id == self.bot.user.id:
             emb.set_author(name="Ayy lmao. It's me")
         
         if m.id == 191036924570501120:
