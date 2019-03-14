@@ -208,7 +208,7 @@ class Info(commands.Cog):
         """
         target = member or ctx.author.id
         try:
-            m = await commands.MemberConverter().convert(ctx, targ)
+            m = await commands.MemberConverter().convert(ctx, target)
         except commands.BadArgument:
             return await ctx.send(f'Member {member} not found')
 
