@@ -15,11 +15,6 @@ idle_id = 548809986982281266
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    online = self.bot.get_emoji(online_id)
-    offline = self.bot.get_emoji(offline_id)
-    dnd = self.bot.get_emoji(dnd_id)
-    idle = self.bot.get_emoji(idle_id)
     
     @commands.command(name='invite')
     async def invite(self, ctx):
@@ -121,6 +116,11 @@ class Info(commands.Cog):
         vc_region = guild.region
         content_filter = guild.explicit_content_filter
         internals = f"Verification level: {verif}\nVoice region: {vc_region}\nContent filter: {content_filter}"
+        
+        online = self.bot.get_emoji(online_id)
+        offline = self.bot.get_emoji(offline_id)
+        dnd = self.bot.get_emoji(dnd_id)
+        idle = self.bot.get_emoji(idle_id)
         
         onliners = len([a for a in ctx.guild.members if str(a.status) == 'online'])
         offliners = len([a for a in ctx.guild.members if str(a.status) == 'offline'])
