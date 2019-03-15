@@ -1,21 +1,25 @@
-from discord.ext import commands
-import discord
+import datetime
 import os
 import traceback
-import datetime
+
+from discord.ext import commands
+import discord
 
 desc = "Farid's home-made bot for his personal server"
 extensions = ['cogs.Fun', 'cogs.Info', 'jishaku']
 
 token = os.getenv('TOKEN')
+p = ['f.', 'ff ', 'f!']
 
-class JrBot(commands.Bot):
+
+class JrBot(commands.AutoShardedBot):
     def __init__(self):
         super().__init__(
-            command_prefix=['f.', 'ff '],
+            command_prefix=commands.when_mentioned_or(*p),
             case_insensitive=True,
             description=desc,
             reconnect=True,
+            fetch_offline_members=True,
             status=discord.Status.idle,
             activity=discord.Activity(
                 name='myself booting...',
@@ -24,7 +28,9 @@ class JrBot(commands.Bot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-
+        self.db = None
+        self.beta_id = 550602719325585408
+        
     async def start(self):
         for extension in extensions:
             try:
@@ -39,16 +45,16 @@ class JrBot(commands.Bot):
         self.commands_used += 1
 
     async def on_ready(self):
-        print(f"Logged in as {self.user}\n"
-              f"ID: {self.user.id}\n"
-              f"---------------")
         await self.change_presence(
             status=discord.Status.dnd,
             activity=discord.Activity(
-                name='everyone 👀',
-                type=discord.ActivityType.watching
+                name='f!help',
+                type=discord.ActivityType.listening
             )
         )
+        print(f"Logged in as {self.user}\n"
+              f"ID: {self.user.id}\n"
+              f"---------------")
 #--#
     async def on_message(self, msg):
         ctx = await self.get_context(msg)
@@ -57,21 +63,33 @@ class JrBot(commands.Bot):
             return
 
         if (
-                ctx.channel.id == 534754067998834688 and ctx.author.id != 191036924570501120
+            ctx.channel.id == 534754067998834688 and
+            ctx.author.id != 191036924570501120
         ):
-            if msg.content.lower().startswith('f.verify') or msg.content.lower().startswith('ff verify'):
+            if (
+                msg.content.lower().startswith('f.verify') or
+                msg.content.lower().startswith('ff verify')
+            ):
                 await self.process_commands(msg)
             else:
                 return await msg.delete()
-
-        await self.process_commands(msg)
+        if msg.content == '<@550602719325585408>' and self.user.id == 550602719325585408:
+            return await ctx.send(
+                'Hello there! My prefix is: `f!`\nor when mentioned'
+            )
+        
+        if msg.content == '<@537570246626902016>' and self.user.id == 537570246626902016:
+            return await ctx.send(
+                'Hello there! My prefix is: `f.`\n`ff `\nor when mentioned'
+            )
+        if msg.content.startswith('f!') and self.user.id == 550602719325585408:
+            await self.process_commands(msg)
 #--#
     async def process_commands(self, msg):
         ctx = await self.get_context(msg)
-
         if ctx.command is None:
             return
-
+        
         await self.invoke(ctx)
 #--#
     async def on_raw_reaction_add(self, data):
