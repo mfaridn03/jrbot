@@ -30,6 +30,7 @@ class JrBot(commands.AutoShardedBot):
         self.commands_used = 0
         self.db = None
         self.beta_id = 550602719325585408
+        self.stable_id = 537570246626902016
         
     async def start(self):
         for extension in extensions:
@@ -45,10 +46,13 @@ class JrBot(commands.AutoShardedBot):
         self.commands_used += 1
 
     async def on_ready(self):
+        pre = 'f.'
+        if self.user.id == self.beta_id:
+            pre = 'f!'
         await self.change_presence(
             status=discord.Status.dnd,
             activity=discord.Activity(
-                name='f!help',
+                name=f'{pre}help',
                 type=discord.ActivityType.listening
             )
         )
@@ -73,16 +77,24 @@ class JrBot(commands.AutoShardedBot):
                 await self.process_commands(msg)
             else:
                 return await msg.delete()
-        if msg.content == '<@550602719325585408>' and self.user.id == 550602719325585408:
+        if msg.content == '<@550602719325585408>' and self.user.id == self.beta_id:
             return await ctx.send(
                 'Hello there! My prefix is: `f!`\nor when mentioned'
             )
         
-        if msg.content == '<@537570246626902016>' and self.user.id == 537570246626902016:
+        if msg.content == '<@537570246626902016>' and self.user.id == self.stable_id:
             return await ctx.send(
                 'Hello there! My prefix is: `f.`\n`ff `\nor when mentioned'
             )
-        if msg.content.startswith('f!') and self.user.id == 550602719325585408:
+        if msg.content.startswith('f!') and self.user.id == self.beta_id:
+            await self.process_commands(msg)
+        if (
+            (
+                msg.content.startswith('f.') or
+                msg.content.startswith('ff ')
+            )
+            and self.user.id == self.stable_id
+        ):
             await self.process_commands(msg)
 #--#
     async def process_commands(self, msg):
