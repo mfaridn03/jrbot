@@ -159,10 +159,11 @@ class Fun(commands.Cog):
             emb.add_field(name='Score', value=score, inline=False)
             em = await ctx.send(embed=emb)
             await em.add_reaction('◀')
+            await em.add_reaction('🛑')
             await em.add_reaction('▶')
 
             def check(reaction, user):
-                return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶'] and reaction.message.id == em.id
+                return user == ctx.message.author and str(reaction.emoji) in ['◀', '🛑', '▶'] and reaction.message.id == em.id
 
             while True:
                 try:
@@ -183,6 +184,9 @@ class Fun(commands.Cog):
                         if index < 0:
                             index += 1
                             continue
+                    
+                    elif str(reaction.emoji) == '🛑':
+                        return await em.clear_reactions()
 
                     async with ctx.typing():
                         an = req_json
@@ -247,16 +251,38 @@ class Fun(commands.Cog):
                 category = req_json['results'][0]['lexicalEntries'][0]['lexicalCategory']
                 # tit = f"[{word}](https://en.oxforddictionaries.com/definition/{word})"
 
-                emb = discord.Embed(title=word, colour=discord.Colour.blurple(),
-                                    timestamp=datetime.datetime.utcnow(), url=f"https://en.oxforddictionaries.com/definition/{word}")
-                emb.add_field(name='Definition', value=definition, inline=False)
-                emb.add_field(name='Type', value=category, inline=False)
+                emb = discord.Embed(
+                    title=word,
+                    colour=discord.Colour.blurple(),
+                    timestamp=datetime.datetime.utcnow(),
+                    url=f"https://en.oxforddictionaries.com/definition/{word}"
+                )
+                emb.add_field(
+                    name='Definition',
+                    value=definition,
+                    inline=False
+                )
+                emb.add_field(
+                    name='Type',
+                    value=category,
+                    inline=False
+                )
                 if et:
-                    emb.add_field(name='Etymology', value=etymology, inline=False)
+                    emb.add_field(
+                        name='Etymology',
+                        value=etymology,
+                        inline=False
+                    )
                 if ex:
-                    emb.add_field(name='Example', value=examples, inline=False)
-                    emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
-
+                    emb.add_field(
+                        name='Example',
+                        value=examples,
+                        inline=False
+                    )
+                    emb.set_footer(
+                        text=ctx.author,
+                        icon_url=ctx.author.avatar_url
+                    )
             await ctx.send(embed=emb)
         except json.JSONDecodeError:
             return await ctx.send("No results found")
@@ -326,7 +352,9 @@ class Fun(commands.Cog):
         
         emb = discord.Embed(
             title='Spoilerfied!',
-            description=(f"```{''.join(final)}```"),
+            description=(
+                f"```\n{''.join(final)}```"
+            ),
             timestamp=datetime.datetime.utcnow()
         )
         
@@ -406,16 +434,36 @@ class Fun(commands.Cog):
                 date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
                 img = result['articles'][index]['urlToImage']
 
-                emb = discord.Embed(title=title,
-                                    description=desc,
-                                    timestamp=datetime.datetime.utcnow(),
-                                    colour=discord.Colour.dark_gold())
-                emb.add_field(name='Preview', value=preview, inline=False)
-                emb.add_field(name='Source', value=source, inline=True)
-                emb.add_field(name='Date', value=date, inline=True)
+                emb = discord.Embed(
+                    title=title,
+                    description=desc,
+                    timestamp=datetime.datetime.utcnow(),
+                    colour=discord.Colour.dark_gold()
+                )
+                emb.add_field(
+                    name='Preview',
+                    value=preview,
+                    inline=False
+                )
+                emb.add_field(
+                    name='Source',
+                    value=source,
+                    inline=True
+                )
+                emb.add_field(
+                    name='Date',
+                    value=date,
+                    inline=True
+                )
                 emb.set_thumbnail(url=img)
-                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
-                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
+                emb.set_footer(
+                    text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url
+                )
+                emb.set_author(
+                    name='Powered by News API',
+                    url='https://newsapi.org/',
+                    icon_url='https://i.imgur.com/KROyhZT.png'
+                )
         except KeyError:
             return await ctx.send('Not found')
         except ValueError:
@@ -457,17 +505,35 @@ class Fun(commands.Cog):
                 date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
                 img = result['articles'][index]['urlToImage']
 
-                emb = discord.Embed(title=title,
-                                    description=desc,
-                                    timestamp=datetime.datetime.utcnow(),
-                                    colour=discord.Colour.dark_gold())
-                emb.add_field(name='Preview', value=preview, inline=False)
-                emb.add_field(name='Source', value=source, inline=True)
-                emb.add_field(name='Date', value=date, inline=True)
+                emb = discord.Embed(
+                    title=title,
+                    description=desc,
+                    timestamp=datetime.datetime.utcnow(),
+                    colour=discord.Colour.dark_gold()
+                )
+                emb.add_field(
+                    name='Preview', value=preview, inline=False
+                )
+                emb.add_field(
+                    name='Source',
+                    value=source,
+                    inline=True
+                )
+                emb.add_field(
+                    name='Date',
+                    value=date,
+                    inline=True
+                )
                 emb.set_thumbnail(url=img)
-                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
-                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
-
+                emb.set_footer(
+                    text=f"{ctx.author} | Page {index + 1}/{len(result['articles'])}",
+                    icon_url=ctx.author.avatar_url
+                )
+                emb.set_author(
+                    name='Powered by News API',
+                    url='https://newsapi.org/',
+                    icon_url='https://i.imgur.com/KROyhZT.png'
+                )
                 await em.edit(embed=emb)
                 asyncio.sleep(20)
     
@@ -506,16 +572,37 @@ class Fun(commands.Cog):
                 date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
                 img = result['articles'][index]['urlToImage']
 
-                emb = discord.Embed(title=title,
-                                    description=desc,
-                                    timestamp=datetime.datetime.utcnow(),
-                                    colour=discord.Colour.dark_gold())
-                emb.add_field(name='Preview', value=preview, inline=False)
-                emb.add_field(name='Source', value=source, inline=True)
-                emb.add_field(name='Date', value=date, inline=True)
+                emb = discord.Embed(
+                    title=title,
+                    description=desc,
+                    timestamp=datetime.datetime.utcnow(),          
+                    colour=discord.Colour.dark_gold()
+                )
+                emb.add_field(
+                    name='Preview',
+                    value=preview,
+                    inline=False
+                )
+                emb.add_field(
+                    name='Source',
+                    value=source,
+                    inline=True
+                )
+                emb.add_field(
+                    name='Date',
+                    value=date,
+                    inline=True
+                )
                 emb.set_thumbnail(url=img)
-                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
-                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
+                emb.set_footer(
+                    text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}',
+                    icon_url=ctx.author.avatar_url
+                )
+                emb.set_author(
+                    name='Powered by News API',
+                    url='https://newsapi.org/',
+                    icon_url='https://i.imgur.com/KROyhZT.png'
+                )
         except KeyError:
             return await ctx.send('Not found')
         except ValueError:
@@ -523,10 +610,11 @@ class Fun(commands.Cog):
 
         em = await ctx.send(embed=emb)
         await em.add_reaction('◀')
+        await em.add_reaction('🛑')
         await em.add_reaction('▶')
 
         def check(reaction, user):
-            return user == ctx.message.author and str(reaction.emoji) in ['◀', '▶'] and reaction.message.id == em.id
+            return user == ctx.message.author and str(reaction.emoji) in ['◀', '🛑', '▶'] and reaction.message.id == em.id
 
         while True:
             try:
@@ -547,6 +635,9 @@ class Fun(commands.Cog):
                     if index < 0:
                         index += 1
                         continue
+                               
+                elif str(reaction.emoji) == '🛑':
+                    return await em.clear_reactions()
 
                 src_link = result['articles'][index]['url']
                 author = result['articles'][index]['author']
@@ -557,17 +648,37 @@ class Fun(commands.Cog):
                 date = f"{str(result['articles'][index]['publishedAt'])[:10]}\n*yyyy-dd-mm*"
                 img = result['articles'][index]['urlToImage']
 
-                emb = discord.Embed(title=title,
-                                    description=desc,
-                                    timestamp=datetime.datetime.utcnow(),
-                                    colour=discord.Colour.dark_gold())
-                emb.add_field(name='Preview', value=preview, inline=False)
-                emb.add_field(name='Source', value=source, inline=True)
-                emb.add_field(name='Date', value=date, inline=True)
+                emb = discord.Embed(
+                    title=title,
+                    description=desc,
+                    timestamp=datetime.datetime.utcnow(),    
+                    colour=discord.Colour.dark_gold()
+                )
+                emb.add_field(
+                    name='Preview', 
+                    value=preview,
+                    inline=False
+                )
+                emb.add_field(
+                    name='Source',
+                    value=source,
+                    inline=True
+                )
+                emb.add_field(
+                    name='Date',
+                    value=date,
+                    inline=True
+                )
                 emb.set_thumbnail(url=img)
-                emb.set_footer(text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}', icon_url=ctx.author.avatar_url)
-                emb.set_author(name='Powered by News API', url='https://newsapi.org/', icon_url='https://i.imgur.com/KROyhZT.png')
-
+                emb.set_footer(
+                    text=f'{ctx.author} | Page {index + 1}/{len(result["articles"])}',
+                    icon_url=ctx.author.avatar_url
+                )
+                emb.set_author(
+                    name='Powered by News API',
+                    url='https://newsapi.org/',
+                    icon_url='https://i.imgur.com/KROyhZT.png'
+                )
                 await em.edit(embed=emb)
                 asyncio.sleep(20)
     
@@ -596,9 +707,16 @@ class Fun(commands.Cog):
             else:
                 for entry in em:
                     desc += f"**Word:** {entry['word']}\n**Accuracy:** {round((entry['score']/3), 2)}%\n\n"
-            emb = discord.Embed(title=f'Rhymes of "{phrase}"', timestamp=datetime.datetime.utcnow(),
-                                color=discord.Colour.blue(), description=desc)
-            emb.set_footer(text=ctx.author, icon_url=ctx.author.avatar_url)
+            emb = discord.Embed(
+                title=f'Rhymes of "{phrase}"',
+                timestamp=datetime.datetime.utcnow(),               
+                color=discord.Colour.blue(),
+                description=desc
+            )
+            emb.set_footer(
+                text=ctx.author,
+                icon_url=ctx.author.avatar_url
+            )
         return await ctx.send(embed=emb)
     
     @commands.command(name='achievement', aliases=['ach'])
