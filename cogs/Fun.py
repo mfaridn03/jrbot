@@ -554,6 +554,7 @@ class Fun(commands.Cog):
         - f.news telegram +security
         - f.news bush "conspiracy"
         """
+        newsapi_key = self.bot.config['NEWSAPI_KEY']
         news = NewsApiClient(newsapi_key)
         
         try:
