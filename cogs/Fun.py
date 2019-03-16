@@ -16,7 +16,7 @@ od_app_id = os.getenv('OD_APP_ID')
 od_app_key = os.getenv('OD_APP_KEY')
 
 
-class Fun(commands.Cog):
+class Fun:
     def __init__(self, bot):
         self.bot = bot
 
