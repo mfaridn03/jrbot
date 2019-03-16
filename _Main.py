@@ -45,7 +45,6 @@ class JrBot(commands.AutoShardedBot):
                 print(f'{extension} loaded!')
             except:
                 print(traceback.format_exc())
-        print('-----')
         await super().start(token)  # Nice try skids
 
     async def on_command_completion(self, ctx):
@@ -65,7 +64,8 @@ class JrBot(commands.AutoShardedBot):
                 type=discord.ActivityType.listening
             )
         )
-        print(f"Logged in as {self.user}\n"
+        print(f"\n---------------"
+              f"Logged in as {self.user}\n"
               f"ID: {self.user.id}\n"
               f"---------------")
 #--#
