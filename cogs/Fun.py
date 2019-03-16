@@ -75,6 +75,7 @@ class Fun(commands.Cog):
         """
 
         session = requests.session()
+        apixu_key = self.bot.config['APIXU_KEY']
         link = f'https://api.apixu.com/v1/current.json?key={apixu_key}&q={city}'
 
         try:
@@ -228,6 +229,8 @@ class Fun(commands.Cog):
         link = f'https://od-api.oxforddictionaries.com:443/api/v1/entries/en/{word.lower()}'
         try:
             async with ctx.typing():
+                od_app_id = self.bot.config['OD_APP_ID']
+                od_app_key = self.bot.config['OD_APP_KEY']
                 header = {"app_id": od_app_id, 'app_key': od_app_key}
                 req_link = session.get(link, headers=header).text
                 req_json = json.loads(req_link)
@@ -417,6 +420,7 @@ class Fun(commands.Cog):
         # This is gonna be improved
         
         # await ctx.send(f'{query}, {lang}, {sortby})\
+        newsapi_key = self.bot.confiG['NEWSAPI_KEY']
         news = NewsApiClient(newsapi_key)
         
         try:
