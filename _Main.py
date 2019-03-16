@@ -3,6 +3,7 @@ import json
 import os
 import traceback
 
+import asyncpg
 from discord.ext import commands
 import discord
 
@@ -29,11 +30,14 @@ class JrBot(commands.AutoShardedBot):
         )
         self.last_boot = datetime.datetime.utcnow()
         self.commands_used = 0
-        self.db = None
         self.beta_id = 550602719325585408
         self.stable_id = 537570246626902016
         self.config = json.loads(os.getenv('config'))
-        
+        self.pool = None
+#--#
+    async def init_db(self):
+        self.pool = await asyncpg.create_pool(dsn=self.config['DATABASE_URL'])
+#--#
     async def start(self):
         for extension in extensions:
             try:
@@ -46,8 +50,10 @@ class JrBot(commands.AutoShardedBot):
 
     async def on_command_completion(self, ctx):
         self.commands_used += 1
-
+#--#
     async def on_ready(self):
+        await self.init_db()
+        
         pre = 'f.'
         if self.user.id == self.beta_id:
             pre = 'f!'
@@ -88,12 +94,18 @@ class JrBot(commands.AutoShardedBot):
             return await ctx.send(
                 'Hello there! My prefix is: `f.`\n`ff `\nor when mentioned'
             )
-        if msg.content.startswith('f!') and self.user.id == self.beta_id:
+        
+        if (
+            msg.content.startswith('f!') or
+            msg.content.startswith('<@550602719325585408>')
+        ) and self.user.id == self.beta_id:
             await self.process_commands(msg)
+            
         if (
             (
                 msg.content.startswith('f.') or
-                msg.content.startswith('ff ')
+                msg.content.startswith('ff ') or
+                msg.content.startswith('<@537570246626902016>')
             )
             and self.user.id == self.stable_id
         ):
