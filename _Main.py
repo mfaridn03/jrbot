@@ -64,7 +64,7 @@ class JrBot(commands.AutoShardedBot):
                 type=discord.ActivityType.listening
             )
         )
-        print(f"\n---------------"
+        print(f"\n---------------\n"
               f"Logged in as {self.user}\n"
               f"ID: {self.user.id}\n"
               f"---------------")
