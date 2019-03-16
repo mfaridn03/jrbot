@@ -53,6 +53,7 @@ class JrBot(commands.AutoShardedBot):
 #--#
     async def on_ready(self):
         await self.init_db()
+        print('Database connection initialised!')
         
         pre = 'f.'
         if self.user.id == self.beta_id:
