@@ -10,11 +10,6 @@ from discord.ext import commands
 from bs4 import BeautifulSoup
 from newsapi import NewsApiClient
 
-newsapi_key = os.getenv('NEWSAPI_KEY')
-apixu_key = os.getenv('APIXU_KEY')
-od_app_id = os.getenv('OD_APP_ID')
-od_app_key = os.getenv('OD_APP_KEY')
-
 
 class Fun(commands.Cog):
     def __init__(self, bot):
