@@ -32,7 +32,7 @@ class JrBot(commands.AutoShardedBot):
         self.db = None
         self.beta_id = 550602719325585408
         self.stable_id = 537570246626902016
-        self.config = json.loads(os.getenv('confid'))
+        self.config = json.loads(os.getenv('config'))
         
     async def start(self):
         for extension in extensions:
