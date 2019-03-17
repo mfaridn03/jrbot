@@ -4,16 +4,14 @@ CREATE TABLE IF NOT EXISTS user_info (
     commands_done NUMERIC NOT NULL DEFAULT 0
 );
 
-CREATE TABLE IF NOT EXISTS user_balance (
-    userid NUMERIC NOT NULL,
-    balance NUMERIC NOT NULL DEFAULT 0
-);
-
 CREATE TABLE IF NOT EXISTS user_profile (
     userid NUMERIC NOT NULL,
     name VARCHAR(512) UNIQUE NOT NULL,
     multiplier NUMERIC NOT NULL DEFAULT 1,
-    inventory VARCHAR(512)
+    inventory VARCHAR(512),
+    balance NUMERIC NOT NULL DEFAULT 0
+    enemies_killed NUMERIC NOT NULL DEFAULT 0,
+    xp NUMERIC NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS commands (
