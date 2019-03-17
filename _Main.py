@@ -48,9 +48,12 @@ class JrBot(commands.AutoShardedBot):
             except:
                 print(traceback.format_exc())
         await super().start(token)  # Nice try skids
-
+#--#
     async def on_command_completion(self, ctx):
         self.commands_used += 1
+        await self.pool.execute(
+            'UPDATE commands SET total_commands = total_commands + 1'
+        )
 #--#
     async def on_ready(self):
         await self.init_db()
