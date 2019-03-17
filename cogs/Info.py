@@ -252,11 +252,7 @@ class Info(commands.Cog):
         d, h = divmod(h, 24)
         
         owner = discord.utils.get(self.bot.users, id=191036924570501120)
-        
-        commands_total = await self.bot.pool.fetchval(
-            'SELECT total_commands FROM commands'
-        )
-        commands_done = f'Since last boot: `{self.bot.commands_used}`\nTotal: `{commands_total}`'
+        commands_done = f'Since last boot: `{self.bot.commands_used}`'
         
         emb = discord.Embed(
             title='Bot information',
