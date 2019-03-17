@@ -85,7 +85,7 @@ class Economy(commands.Cog):
     
     @commands.command(name='daily')  # Placeholder
     async def daily(self, ctx):
-        diff, status = await self.is_daily(ctx.author)
+        diff, status = await self._is_daily(ctx.author)
         if status:
             await self._set_daily(ctx.author)
             return await ctx.send(
