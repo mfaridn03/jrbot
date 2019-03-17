@@ -10,7 +10,7 @@ moai = "<:moai:532243816946597947>"
 def has_char():
     async def predicate(ctx):
         if await ctx.bot.pool.execute(
-            'SELECT userid FROM user_profile WHERE userid = $1',
+            'SELECT userid FROM user_info WHERE userid = $1',
             ctx.author.id
         ):
             return True
@@ -30,7 +30,7 @@ class Economy(commands.Cog):
     
     async def _is_daily(self, user):
         a = await self.bot.pool.fetchval(
-            "SELECT daily_timer FROM user_profile WHERE userid = $1",
+            "SELECT daily_timer FROM user_info WHERE userid = $1",
             user.id
         )
         now = datetime.utcnow(timezone.utc)
