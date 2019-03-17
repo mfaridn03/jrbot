@@ -54,6 +54,20 @@ class JrBot(commands.AutoShardedBot):
         await self.pool.execute(
             'UPDATE commands SET total_commands = total_commands + 1'
         )
+        if await self.pool.execute(
+            'SELECT commands_done FROM user_info WHERE userid=$1',
+            ctx.author.id
+        ):
+            await self.pool.execute(
+                'UPDATE user_info SET commands_done = commands_done + 1 WHERE userid=$1',
+                ctx.author.id
+            )
+        else:
+            await self.pool.execute(
+                'INSERT INTO user_info(userid, commands_done) VALUES ($1, $2),
+                ctx.author.id,
+                1
+            )
 #--#
     async def on_ready(self):
         await self.init_db()
