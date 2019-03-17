@@ -71,6 +71,11 @@ class Info(commands.Cog):
 
         joined = str(m.joined_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
         created = str(m.created_at.strftime('%d-%m-%Y\n%I:%M:%S %p'))
+        
+        commands_executed = await self.bot.pool.fetchval(
+            'SELECT commands_done FROM user_info WHERE userid=$1',
+            m.id
+        )
 
         emb = discord.Embed(
             title=f'Info on {username}',
@@ -97,6 +102,10 @@ class Info(commands.Cog):
         emb.add_field(
             name='Created at',
             value=created
+        )
+        emb.add_field(
+            name='Commands executed',
+            value=str(commands_executed)
         )
         emb.set_thumbnail(url=avatar)
         emb.set_footer(
