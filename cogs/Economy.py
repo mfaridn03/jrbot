@@ -1,7 +1,29 @@
+import asyncio
+
+import asyncpg
 import discord
 from discord.ext import commands
 
 moai = "<:moai:532243816946597947>"
+
+def has_char():
+    async def predicate(ctx):
+        if await ctx.bot.pool.execute(
+            'SELECT user_id FROM user_profile WHERE user_id = $1',
+            ctx.author.id
+        ):
+            return True
+        raise (NoCharacter(ctx))
+    
+    return commands.check(predicate)
+
+
+class NoCharacter(commands.CommandError):
+    def __init__(self, ctx):
+        super().__init__(
+            "You need a character for this"
+        )
+        
 
 
 class Economy(commands.Cog):
@@ -16,41 +38,35 @@ class Economy(commands.Cog):
         Usage:
         - f.create
         """
-        async with ctx.typing():
-            a = f"INSERT INTO user_info (userid) VALUES ({ctx.author.id});"
-            b = f"INSERT INTO user_balance (userid, balance) VALUES ({ctx.author.id}, 100);"
-            c = f"INSERT INTO user_profile (userid, name, multiplier) VALUES ({ctx.author.id}, '{ctx.author.id}', 1.0);"
-            self.bot.db.execute(a)
-            self.bot.db.execute(b)
-            self.bot.db.execute(c)  # Repetition bc something's wrong with executemany()
-        await ctx.send('Profile created!')
-    
-    @commands.command(name='bal', aliases=['balance'])
-    async def balance(self, ctx, member=None):
-        """
-        Retrieves your (or someone's) balance (server-wide search, not global)
-        <member> can be their name#discriminator, id, nickname or username
+        if await self.bot.pool.fetchrow(
+            "SELECT user_id from user_info where user_id = $1",
+            ctx.author.id
+        ):
+            return await ctx.send("You already have a character!")
         
-        Usage examples:
-        - f.bal
-        - f.bal Techno#2329
-        - f.bal 376911204481892352
-        """
-        target = member or str(ctx.author)
+        def check(msg):
+            return msg.author == ctx.author
+        
+        await ctx.send('Enter your profile name (min 3 characters, max 24)')
+        
         try:
-            target = await commands.MemberConverter().convert(
-                ctx, target
+            name = await self.bot.wait_for('message', timeout=30, check=check)
+        except asyncio.TimeoutError:
+            return await ctx.send('Timeout...')
+        
+        if len(name.content) > 24 or len(name.content) < 3:
+            return await ctx.send('Name too long or too short!')
+        
+        try:
+            await self.bot.pool.execute(
+                'INSERT INTO user_profile (userid, name) VALUES ($1, $2)',
+                ctx.author.id,
+                name
             )
-        except commands.BadArgument:
-            return await ctx.send(
-                'Cannot find user'
-            )
-        res = self.bot.db.fetch(
-            f'SELECT balance FROM user_balance WHERE userid={target.id}'
-        )
-        await ctx.send(
-            f'`{target}` has **{res}**{moai}'
-        )
+        except asyncpg.UniqueViolationError:
+            return await ctx.send('That name has been taken. Try again with a different name')
+        await ctx.send('Profile created!')
+        
 
 def setup(bot):
     bot.add_cog(Economy(bot))  # Economy extension not in extensions list. This won't be loaded on purpose
