@@ -60,6 +60,9 @@ class Economy(commands.Cog):
                 ctx.author.id,
                 name.content
             )
+            await self.bot.pool.execute(
+                'INSERT INTO user_info (userid) values $1', ctx.author.id
+            )
         except asyncpg.UniqueViolationError:
             return await ctx.send('That name has been taken. Try again with a different name')
         await ctx.send('Profile created!')
