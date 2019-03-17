@@ -8,7 +8,7 @@ from discord.ext import commands
 import discord
 
 desc = "Farid's home-made bot for his personal server"
-extensions = ['cogs.Fun', 'cogs.Info', 'jishaku']
+extensions = ['cogs.Fun', 'cogs.Info', 'cogs.Economy', 'jishaku']
 
 token = os.getenv('TOKEN')
 p = ['f.', 'ff ', 'f!']
