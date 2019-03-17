@@ -37,6 +37,8 @@ class JrBot(commands.AutoShardedBot):
 #--#
     async def init_db(self):
         self.pool = await asyncpg.create_pool(dsn=self.config['DATABASE_URL'])
+        with open("setup/schema.sql") as o:
+            await self.pool.execute(o.read())
 #--#
     async def start(self):
         for extension in extensions:
@@ -54,14 +56,21 @@ class JrBot(commands.AutoShardedBot):
         await self.init_db()
         print('Database connection initialised!')
         
-        pre = 'f.'
+        _activity = discord.Activity(
+            name='f.help',
+            type=discord.ActivityType.watching
+        )
+        
         if self.user.id == self.beta_id:
-            pre = 'f!'
+            _activity = discord.Streaming(
+                name='f!help',
+                url='https://www.twitch.tv/whydoyouclickonthis',
+                details='mention me!'
+            )
+            
         await self.change_presence(
             status=discord.Status.dnd,
-            activity=discord.Activity(
-                name=f'{pre}help',
-                type=discord.ActivityType.listening
+            activity=_activity
             )
         )
         print(f"\n---------------\n"
