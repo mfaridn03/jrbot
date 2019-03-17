@@ -63,6 +63,14 @@ class Economy(commands.Cog):
         except asyncpg.UniqueViolationError:
             return await ctx.send('That name has been taken. Try again with a different name')
         await ctx.send('Profile created!')
+    
+    @commands.command(name='free')  # Placeholder
+    async def free(self, ctx):
+        await self.bot.pool.execute(
+            "UPDATE user_profile SET balance = balance + 500 WHERE userid=$1",
+            ctx.author.id
+        )
+        
         
 
 def setup(bot):
