@@ -51,10 +51,10 @@ class JrBot(commands.AutoShardedBot):
 #--#
     async def on_command_completion(self, ctx):
         self.commands_used += 1
-        await self.pool.execute(
-            'UPDATE commands SET total_commands = total_commands + 1'
-        )
-        if await self.pool.execute(
+        #await self.pool.execute(
+        #    'UPDATE commands SET total_commands = total_commands + 1'
+        #)
+        if await self.pool.fetchval(
             'SELECT commands_done FROM user_info WHERE userid=$1',
             ctx.author.id
         ):
