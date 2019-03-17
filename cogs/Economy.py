@@ -9,7 +9,7 @@ moai = "<:moai:532243816946597947>"
 def has_char():
     async def predicate(ctx):
         if await ctx.bot.pool.execute(
-            'SELECT user_id FROM user_profile WHERE user_id = $1',
+            'SELECT userid FROM user_profile WHERE userid = $1',
             ctx.author.id
         ):
             return True
@@ -39,7 +39,7 @@ class Economy(commands.Cog):
         - f.create
         """
         if await self.bot.pool.fetchrow(
-            "SELECT user_id from user_info where user_id = $1",
+            "SELECT userid from user_info where userid = $1",
             ctx.author.id
         ):
             return await ctx.send("You already have a character!")
