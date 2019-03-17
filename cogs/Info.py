@@ -244,6 +244,11 @@ class Info(commands.Cog):
         
         owner = discord.utils.get(self.bot.users, id=191036924570501120)
         
+        commands_total = await self.bot.pool.fetchval(
+            'SELECT total_commands FROM commands'
+        )
+        commands_done = f'Since last boot: `{self.bot.commands_used}`\nTotal: `{commands_total}`'
+        
         emb = discord.Embed(
             title='Bot information',
             colour=ctx.me.colour,
@@ -270,7 +275,7 @@ class Info(commands.Cog):
             value=f"Servers: {servers}\nMembers: {members}"
         )
         emb.add_field(
-            name='Commands since last boot', value=self.bot.commands_used
+            name='Commands executed', value=commands_done
         )
         emb.add_field(
             name='Uptime',
