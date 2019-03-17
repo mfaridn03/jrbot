@@ -33,7 +33,7 @@ class Economy(commands.Cog):
             "SELECT daily_timer FROM user_info WHERE userid = $1",
             user.id
         )
-        now = datetime.utcnow(timezone.utc)
+        now = datetime.now(timezone.utc)
         diff = int((now - a).total_seconds())
         if diff > 86400:
             return diff, True
