@@ -64,7 +64,7 @@ class JrBot(commands.AutoShardedBot):
             )
         else:
             await self.pool.execute(
-                'INSERT INTO user_info(userid, commands_done) VALUES ($1, $2),
+                'INSERT INTO user_info(userid, commands_done) VALUES ($1, $2)',
                 ctx.author.id,
                 1
             )
