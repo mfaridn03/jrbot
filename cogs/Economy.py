@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime, timezone
 
 import asyncpg
 import discord
@@ -20,12 +21,30 @@ def has_char():
 
 class NoCharacter(commands.CommandError):
     def __init__(self, ctx):
-        super().__init__("You need a character for this")
+        super().__init__("You need a character to run this command")
         
 
 class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+    
+    async def _is_daily(self, user):
+        a = await self.bot.pool.fetchval(
+            "SELECT daily_timer FROM user_profile WHERE userid = $1",
+            user.id
+        )
+        now = datetime.utcnow(timezone.utc)
+        diff = int((now - a).total_seconds())
+        if diff > 86400:
+            return diff, True
+        return diff, False
+    
+    async def _set_daily(self, user):
+        await self.bot.pool.execute(
+            "UPDATE user_profile SET daily_timer = $1 WHERE userid = $2",
+            datetime.utcnow(),
+            user.id
+        )
     
     @commands.command(name='create')
     async def create(self, ctx):
@@ -63,6 +82,20 @@ class Economy(commands.Cog):
         except asyncpg.UniqueViolationError:
             return await ctx.send('That name has been taken. Try again with a different name')
         await ctx.send('Profile created!')
+    
+    @commands.command(name='daily')  # Placeholder
+    async def daily(self, ctx):
+        diff, status = await self.is_daily(ctx.author)
+        if status:
+            await self._set_daily(ctx.author)
+            return await ctx.send(
+                f'You claimed your daily `500`{moai}'
+            )
+        h, r = divmod(diff, 3600)
+        m, s = divmod(r, 60)
+        _, h = divmod(h, 24)
+        time_fmt = f"`{h}` hours, `{m}` minutes and `{s}` seconds"
+        await ctx.send(f"You are on cooldown! Try again in {time_fmt}")
         
 
 def setup(bot):
