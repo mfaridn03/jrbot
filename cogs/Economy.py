@@ -36,7 +36,7 @@ class Economy(commands.Cog):
         - f.create
         """
         if await self.bot.pool.fetchrow(
-            "SELECT userid from user_info where userid = $1",
+            "SELECT userid from user_profile where userid = $1",
             ctx.author.id
         ):
             return await ctx.send("You already have a character!")
@@ -59,9 +59,6 @@ class Economy(commands.Cog):
                 'INSERT INTO user_profile (userid, name) VALUES ($1, $2)',
                 ctx.author.id,
                 name.content
-            )
-            await self.bot.pool.execute(
-                'INSERT INTO user_info (userid) values $1', ctx.author.id
             )
         except asyncpg.UniqueViolationError:
             return await ctx.send('That name has been taken. Try again with a different name')
