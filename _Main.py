@@ -71,7 +71,6 @@ class JrBot(commands.AutoShardedBot):
         await self.change_presence(
             status=discord.Status.dnd,
             activity=_activity
-            )
         )
         print(f"\n---------------\n"
               f"Logged in as {self.user}\n"
