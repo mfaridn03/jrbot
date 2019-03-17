@@ -20,11 +20,8 @@ def has_char():
 
 class NoCharacter(commands.CommandError):
     def __init__(self, ctx):
-        super().__init__(
-            "You need a character for this"
-        )
+        super().__init__("You need a character for this")
         
-
 
 class Economy(commands.Cog):
     def __init__(self, bot):
@@ -61,7 +58,7 @@ class Economy(commands.Cog):
             await self.bot.pool.execute(
                 'INSERT INTO user_profile (userid, name) VALUES ($1, $2)',
                 ctx.author.id,
-                name
+                name.content
             )
         except asyncpg.UniqueViolationError:
             return await ctx.send('That name has been taken. Try again with a different name')
