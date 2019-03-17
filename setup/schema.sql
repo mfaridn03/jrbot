@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS user_balance (
 
 CREATE TABLE IF NOT EXISTS user_profile (
     userid NUMERIC NOT NULL,
-    name TEXT UNIQUE NOT NULL,
+    name VARCHAR(512) UNIQUE NOT NULL,
     multiplier NUMERIC NOT NULL DEFAULT 1,
-    inventory TEXT
+    inventory VARCHAR(512)
 );
 
 CREATE TABLE IF NOT EXISTS commands (
