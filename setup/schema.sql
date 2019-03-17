@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS user_profile (
 );
 
 CREATE TABLE IF NOT EXISTS commands (
-    total_commands NUMERIC NOT NULL DEFAULT 0,
+    total_commands NUMERIC NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS guild_prefixes (
