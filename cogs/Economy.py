@@ -35,9 +35,10 @@ class Economy(commands.Cog):
         )
         now = datetime.utcnow()
         diff = int((now - a).total_seconds())
-        if diff > 86400:
+        diff = diff - 86400
+        if diff >= 0:
             return diff, True
-        return diff, False
+        return abs(diff), False
     
     async def _set_daily(self, user):
         await self.bot.pool.execute(
