@@ -27,7 +27,7 @@ class NoCharacter(commands.CommandError):
 class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
+#--#
     async def _is_daily(self, user):
         a = await self.bot.pool.fetchval(
             "SELECT daily_timer FROM user_info WHERE userid = $1",
@@ -46,7 +46,7 @@ class Economy(commands.Cog):
             datetime.utcnow(),
             user.id
         )
-    
+#--#
     @commands.command(name='create')
     async def create(self, ctx):
         """
@@ -59,21 +59,24 @@ class Economy(commands.Cog):
             "SELECT userid from user_profile where userid = $1",
             ctx.author.id
         ):
-            return await ctx.send("You already have a character!")
-        
+            return await ctx.send(
+                "You already have a character!"
+            )
         def check(msg):
             return msg.author == ctx.author
-        
-        await ctx.send('Enter your profile name (min 3 characters, max 24)')
-        
+        await ctx.send(
+            'Enter your profile name (min 3 characters, max 24)'
+        )
         try:
             name = await self.bot.wait_for('message', timeout=30, check=check)
         except asyncio.TimeoutError:
-            return await ctx.send('Timeout...')
-        
+            return await ctx.send(
+                'Timeout...'
+            )
         if len(name.content) > 24 or len(name.content) < 3:
-            return await ctx.send('Name too long or too short!')
-        
+            return await ctx.send(
+                'Name too long or too short!'
+            )
         try:
             await self.bot.pool.execute(
                 'INSERT INTO user_profile (userid, name) VALUES ($1, $2)',
@@ -81,9 +84,14 @@ class Economy(commands.Cog):
                 name.content
             )
         except asyncpg.UniqueViolationError:
-            return await ctx.send('That name has been taken. Try again with a different name')
-        await ctx.send('Profile created!')
+            return await ctx.send(
+                'That name has been taken. Try again with a different name'
+            )
+        await ctx.send(
+            'Profile created!'
+        )
     
+    @has_char()
     @commands.command(name='daily')  # Placeholder
     async def daily(self, ctx):
         diff, status = await self._is_daily(ctx.author)
@@ -96,7 +104,41 @@ class Economy(commands.Cog):
         m, s = divmod(r, 60)
         _, h = divmod(h, 24)
         time_fmt = f"`{h}` hours, `{m}` minutes and `{s}` seconds"
-        await ctx.send(f"You are on cooldown! Try again in {time_fmt}")
+        await ctx.send(
+            f"You are on cooldown! Try again in {time_fmt}"
+        )
+    
+    @has_char()
+    @commands.command(name='balance', aliases=['bal'])
+    async def balance(self, ctx, target: str=None):
+        """
+        Retrieves your balance or another person's balance
+        Person search scope is guild-only
+        """
+        if not target:
+            target = ctx.author
+        else:
+            try:
+                target = await commands.MemberConverter().convert(
+                    ctx,
+                    target
+                )
+            except commands.CommandError:
+                return await ctx.send(
+                    'Member not found'
+                )
+        res = await self.bot.pool.fetchval(
+            'SELECT balance FROM user_profiles WHERE userid = $1',
+            target.id
+        )
+        if not res:
+            return await ctx.send(
+                'Target user has no profile'
+            )
+        #
+        await ctx.send(
+            f'{target} has `{res}`{moai}'
+        )
         
 
 def setup(bot):
