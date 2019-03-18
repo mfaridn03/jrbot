@@ -128,7 +128,7 @@ class Economy(commands.Cog):
                     'Member not found'
                 )
         res = await self.bot.pool.fetchval(
-            'SELECT balance FROM user_profiles WHERE userid = $1',
+            'SELECT balance FROM user_profile WHERE userid = $1',
             target.id
         )
         if not res:
