@@ -41,7 +41,7 @@ class Economy(commands.Cog):
     
     async def _set_daily(self, user):
         await self.bot.pool.execute(
-            "UPDATE usre_info SET daily_timer = $1 WHERE userid = $2",
+            "UPDATE user_info SET daily_timer = $1 WHERE userid = $2",
             datetime.utcnow(),
             user.id
         )
