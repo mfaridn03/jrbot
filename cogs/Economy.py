@@ -46,6 +46,11 @@ class Economy(commands.Cog):
             datetime.utcnow(),
             user.id
         )
+        await self.bot.pool.execute(
+            "UPDATE user_profile SET balance = balance + 500 WHERE userid = $2",
+            user.id
+        )
+            
 #--#
     @commands.command(name='create')
     async def create(self, ctx):
