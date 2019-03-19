@@ -131,7 +131,7 @@ class Economy(commands.Cog):
             'SELECT balance FROM user_profile WHERE userid = $1',
             target.id
         )
-        if not res:
+        if res is None:
             return await ctx.send(
                 'Target user has no profile'
             )
