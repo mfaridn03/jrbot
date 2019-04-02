@@ -7,3 +7,4 @@ psutil
 newsapi-python
 asyncpg
 red-lavalink
+path
