@@ -6,4 +6,4 @@ bs4
 psutil
 newsapi-python
 asyncpg
-ujson
+red-lavalink
