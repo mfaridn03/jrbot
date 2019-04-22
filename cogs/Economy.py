@@ -42,8 +42,7 @@ class Economy(commands.Cog):
     
     async def _set_daily(self, user):
         await self.bot.pool.execute(
-            "UPDATE user_info SET daily_timer = $1 WHERE userid = $2",
-            datetime.utcnow(),
+            "UPDATE user_info SET daily_timer = LOCALTIMESTAMP WHERE userid = $1",
             user.id
         )
         await self.bot.pool.execute(
@@ -68,7 +67,7 @@ class Economy(commands.Cog):
                 "You already have a character!"
             )
         def check(msg):
-            return msg.author == ctx.author
+            return msg.author == ctx.author and msg.channel == ctx.channel
         await ctx.send(
             'Enter your profile name (min 3 characters, max 24)'
         )
