@@ -6,7 +6,7 @@ import urllib
 from bs4 import BeautifulSoup
 import discord
 import requests
-import ujson
+import json
 
 from discord.ext import commands
 from newsapi import NewsApiClient
@@ -31,7 +31,7 @@ class Fun(commands.Cog):
                 session = requests.session()
                 link = f'http://api.urbandictionary.com/v0/define?term={urllib.parse.quote(word)}'
                 req_link = session.get(link).text
-                req_json = ujson.loads(req_link)
+                req_json = json.loads(req_link)
 
                 if not req_json['list']:
                     return await ctx.send(f'No search results found for "**{word}**"')
@@ -76,7 +76,7 @@ class Fun(commands.Cog):
         try:
             async with ctx.typing():
                 req_link = session.get(link).text
-                req_json = ujson.loads(req_link)
+                req_json = json.loads(req_link)
 
                 city_name = req_json['location']['name']
                 region = req_json['location']['region']
@@ -132,7 +132,7 @@ class Fun(commands.Cog):
         try:
             async with ctx.typing():
                 req_link = session.get(link).text
-                req_json = ujson.loads(req_link)
+                req_json = json.loads(req_link)
 
                 limit = len(req_json['result']) - 1
                 title = req_json['result'][index]['title']
@@ -228,7 +228,7 @@ class Fun(commands.Cog):
                 od_app_key = self.bot.config['OD_APP_KEY']
                 header = {"app_id": od_app_id, 'app_key': od_app_key}
                 req_link = session.get(link, headers=header).text
-                req_json = ujson.loads(req_link)
+                req_json = json.loads(req_link)
                 etymology, examples = '', ''
                 et, ex = True, True
 
@@ -690,7 +690,7 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             req_link = session.get(link).text
-            req_json = ujson.loads(req_link)
+            req_json = json.loads(req_link)
 
             if req_json is None:
                 return await ctx.send('No rhyme/s found')
