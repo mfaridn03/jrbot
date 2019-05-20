@@ -34,7 +34,7 @@ class JrBot(commands.AutoShardedBot):
         self.stable_id = 537570246626902016
         self.config = json.loads(os.getenv('config'))
         self.pool = None
-        self.discord_version = "discord.py `(1.2.0a)[https://github.com/Rapptz/discord.py/tree/master]`"
+        self.discord_version = "(discord.py 1.2.0a)[https://github.com/Rapptz/discord.py/tree/master]"
 #--#
     async def init_db(self):
         self.pool = await asyncpg.create_pool(dsn=self.config['DATABASE_URL'])
