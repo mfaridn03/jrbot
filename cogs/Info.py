@@ -241,7 +241,7 @@ class Info(commands.Cog):
         
         cpu = process.cpu_percent() / psutil.cpu_count()
         memory = round((process.memory_full_info().uss / (1024 ** 2)), 2)
-        py = f"[discord.py - rewrite](https://github.com/Rapptz/discord.py/tree/rewrite)"
+        py = self.bot.discord_version
         ver = 'Python 3.6.6'
         members = len(self.bot.users)
         servers = len(self.bot.guilds)
