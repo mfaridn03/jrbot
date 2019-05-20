@@ -40,14 +40,14 @@ class Economy(commands.Cog):
             return diff, True
         return abs(diff), False
     
-    async def _set_daily(self, user):
+    async def _set_daily(self, user: int):
         await self.bot.pool.execute(
             "UPDATE user_info SET daily_timer = LOCALTIMESTAMP WHERE userid = $1",
-            user.id
+            user
         )
         await self.bot.pool.execute(
             "UPDATE user_profile SET balance = balance + 500 WHERE userid = $2",
-            user.id
+            user
         )
             
 #--#
@@ -100,7 +100,7 @@ class Economy(commands.Cog):
     async def daily(self, ctx):
         diff, status = await self._is_daily(ctx.author)
         if status:
-            await self._set_daily(ctx.author)
+            await self._set_daily(ctx.author.id)
             return await ctx.send(
                 f'You claimed your daily `500`{moai}'
             )
