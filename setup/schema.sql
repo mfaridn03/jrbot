@@ -1,7 +1,11 @@
 CREATE TABLE IF NOT EXISTS user_info (
     userid NUMERIC,
     commands_done NUMERIC NOT NULL DEFAULT 0,
-    daily_timer TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS daily_timers (
+    userid NUMERIC NOT NULL,
+    time NUMERIC NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user_profile (
