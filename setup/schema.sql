@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS user_info (
     userid NUMERIC,
-    commands_done NUMERIC NOT NULL DEFAULT 0,
+    commands_done NUMERIC NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS daily_timers (
