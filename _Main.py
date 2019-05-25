@@ -17,7 +17,7 @@ p = ['f.', 'ff ', 'f!']
 class JrBot(commands.AutoShardedBot):
     def __init__(self):
         super().__init__(
-            command_prefix=commands.when_mentioned_or(*p),
+            command_prefix=self.get_prefix,
             case_insensitive=True,
             description=desc,
             reconnect=True,
@@ -35,6 +35,17 @@ class JrBot(commands.AutoShardedBot):
         self.config = json.loads(os.getenv('config'))
         self.pool = None
         self.discord_version = "discord.py [`1.2.0a`](https://github.com/Rapptz/discord.py/tree/master)"
+        self.prefixes = {}
+#--#
+    async def get_prefix(self, bot, msg):
+        if not msg.guild:
+            return commands.when_mentioned_or(*p)(bot, msg)
+        try:
+            pre = bot.prefixes[msg.guild.id]
+            if pre:
+                return commands.when_mentioned_or(pre)(bot, msg)
+        except KeyError:
+            return commands.when_mentioned_or(*p)(bot, msg)     
 #--#
     async def init_db(self):
         self.pool = await asyncpg.create_pool(dsn=self.config['DATABASE_URL'])
@@ -70,6 +81,12 @@ class JrBot(commands.AutoShardedBot):
     async def on_ready(self):
         await self.init_db()
         print('Database connection initialised!')
+        
+        prefixes = await self.pool.fetch(
+            "SELECT guild_id, prefix FROM guild_prefixes"
+        )
+        for p in prefixes:
+            self.prefixes[p[0]] = p[1]  # {guild_id: "prefix"}
         
         _activity = discord.Activity(
             name='f.help',
