@@ -152,13 +152,6 @@ class JrBot(commands.AutoShardedBot):
         ):
             await self.process_commands(msg)
 #--#
-    async def process_commands(self, msg):
-        ctx = await self.get_context(msg)
-        if ctx.command is None:
-            return
-        
-        await self.invoke(ctx)
-#--#
     async def on_raw_reaction_add(self, data):
         if data.message_id == 541974797933084702:
             guild = self.get_guild(data.guild_id)
