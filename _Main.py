@@ -17,7 +17,7 @@ p = ['f.', 'ff ', 'f!']
 class JrBot(commands.AutoShardedBot):
     def __init__(self):
         super().__init__(
-            command_prefix=self.get_prefix,
+            command_prefix=commands.when_mentioned_or(*p),
             case_insensitive=True,
             description=desc,
             reconnect=True,
@@ -37,7 +37,7 @@ class JrBot(commands.AutoShardedBot):
         self.discord_version = "discord.py [`1.2.0a`](https://github.com/Rapptz/discord.py/tree/master)"
         self.prefixes = {}
 #--#
-    async def get_prefix(self, bot, msg):
+    '''async def get_prefix(self, bot, msg):
         if not msg.guild:
             return commands.when_mentioned_or(*p)(bot, msg)
         try:
@@ -45,7 +45,7 @@ class JrBot(commands.AutoShardedBot):
             if pre:
                 return commands.when_mentioned_or(pre)(bot, msg)
         except KeyError:
-            return commands.when_mentioned_or(*p)(bot, msg)     
+            return commands.when_mentioned_or(*p)(bot, msg)'''    
 #--#
     async def init_db(self):
         self.pool = await asyncpg.create_pool(dsn=self.config['DATABASE_URL'])
