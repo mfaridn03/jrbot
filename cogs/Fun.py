@@ -1,8 +1,9 @@
-import datetime
 import asyncio
+import datetime
 import os
 import urllib
 
+import aiohttp
 from bs4 import BeautifulSoup
 import discord
 import requests
@@ -28,10 +29,12 @@ class Fun(commands.Cog):
         try:
             async with ctx.typing():
                 index = 0
-                session = requests.session()
                 link = f'http://api.urbandictionary.com/v0/define?term={urllib.parse.quote(word)}'
-                req_link = session.get(link).text
-                req_json = json.loads(req_link)
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(link) as resp:
+                        req_json = await resp.json()
+                # req_link = session.get(link).text
+                # req_json = json.loads(req_link)
 
                 if not req_json['list']:
                     return await ctx.send(f'No search results found for "**{word}**"')
