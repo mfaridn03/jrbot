@@ -3,7 +3,7 @@ import datetime
 import os
 import urllib
 
-import aiohttp
+import requests_async as aiorequests
 from bs4 import BeautifulSoup
 import discord
 import requests
@@ -30,9 +30,7 @@ class Fun(commands.Cog):
             async with ctx.typing():
                 index = 0
                 link = f'http://api.urbandictionary.com/v0/define?term={urllib.parse.quote(word)}'
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(link) as resp:
-                        req_json = await resp.json()
+                req_json = await aiorequests.get(link).json
                 # req_link = session.get(link).text
                 # req_json = json.loads(req_link)
 
