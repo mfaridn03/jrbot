@@ -70,14 +70,12 @@ class Fun(commands.Cog):
         - f.weather new york city
         """
 
-        session = requests.session()
         apixu_key = self.bot.config['APIXU_KEY']
         link = f'https://api.apixu.com/v1/current.json?key={apixu_key}&q={city}'
 
         try:
             async with ctx.typing():
-                req_link = session.get(link).text
-                req_json = json.loads(req_link)
+                req_json = (await aiorequests.get(link)).json()
 
                 city_name = req_json['location']['name']
                 region = req_json['location']['region']
@@ -127,13 +125,11 @@ class Fun(commands.Cog):
         - f.anime Fairy Tail
         """
         index = 0
-        session = requests.session()
         link = f"https://api.jikan.moe/search/anime/{name}"
 
         try:
             async with ctx.typing():
-                req_link = session.get(link).text
-                req_json = json.loads(req_link)
+                req_json = (await aiorequests.get(link)).json()
 
                 limit = len(req_json['result']) - 1
                 title = req_json['result'][index]['title']
@@ -221,15 +217,13 @@ class Fun(commands.Cog):
         - f.define impostor
         - f.define Apocalypse
         """
-        session = requests.session()
         link = f'https://od-api.oxforddictionaries.com:443/api/v1/entries/en/{word.lower()}'
         try:
             async with ctx.typing():
                 od_app_id = self.bot.config['OD_APP_ID']
                 od_app_key = self.bot.config['OD_APP_KEY']
                 header = {"app_id": od_app_id, 'app_key': od_app_key}
-                req_link = session.get(link, headers=header).text
-                req_json = json.loads(req_link)
+                req_json = (await aiorequests.get(link, headers=header)).json()
                 etymology, examples = '', ''
                 et, ex = True, True
 
@@ -299,8 +293,8 @@ class Fun(commands.Cog):
         try:
             async with ctx.typing():
                 query = search_query.replace(' ', '+')
-                search_url = f'https://www.youtube.com/results?search_query={query}'
-                page = urllib.request.urlopen(search_url)
+                link = f'https://www.youtube.com/results?search_query={query}'
+                page = (await aiorequests.get(link)).text
                 soup = BeautifulSoup(page.read(), "html.parser")
                 video_id = soup.find("div", {"class": "yt-lockup yt-lockup-tile yt-lockup-video vve-check clearfix"}).get(
                     "data-context-item-id")
@@ -686,12 +680,10 @@ class Fun(commands.Cog):
     @commands.command(name='rhyme')
     async def rhyme(self, ctx, *, phrase):
         """Tries to find a rhyme for a certain phrase"""
-        session = requests.session()
         link = f"http://rhymebrain.com/talk?function=getRhymes&word={phrase.lower()}"
 
         async with ctx.typing():
-            req_link = session.get(link).text
-            req_json = json.loads(req_link)
+            req_json = (await aiorequests.get(link)).json()
 
             if req_json is None:
                 return await ctx.send('No rhyme/s found')
